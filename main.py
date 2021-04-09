@@ -33,11 +33,7 @@ class Login(Screen):
             print('matched')
         else:
             print('Wrong username or email or password 2')
-##        try:
-##            usr_index = rows[0].index(self.usr_name.text)
-##            print(usr_index)
-##        except ValueError as e:
-##            print(e)
+            
     def reset_field(self):
         pass
 
@@ -64,8 +60,7 @@ class RegisterUser(Screen):
             cursor.close()
             self.reset_field()
             self.go_login()
-        
-        
+
     def reset_field(self):
         self.usr_name.text = ''
         self.usr_pass1.text = ''
@@ -114,6 +109,7 @@ class MyApp(MDApp):
 
 class Manager(ScreenManager):
     pass
+
 
 manage = Manager()
 
