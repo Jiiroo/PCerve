@@ -120,7 +120,7 @@ class MyApp(MDApp):
     
         for navigate in navigating:
             manage.add_widget(navigate)
-        manage.current = 'main'
+        manage.current = 'register'
 
 class Manager(ScreenManager):
     pass
