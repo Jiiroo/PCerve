@@ -139,6 +139,7 @@
             md_bg_color: 1,1,1,1
             size_hint: .2, .05
             pos_hint: {'center_x': .90, 'center_y': .97}
+            on_release: root.go_main()
 
 <ForgotPassword>
 
@@ -148,32 +149,59 @@
     NavigationLayout:
 
         ScreenManager:
-
+            id: sm
             Screen:
 
                 BoxLayout:
                     orientation: 'vertical'
 
                     MDToolbar:
-                        title: "Navigation Drawer"
+                        title: "PCerve"
                         elevation: 10
-                        left_action_items: [['menu', lambda x: nav_drawer.set_state()]]
+                        left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
 
                     Widget:
 
-
         MDNavigationDrawer:
             id: nav_drawer
+            BoxLayout:
+                orientation: 'vertical'
+                padding: '8dp'
+                spacing: '8dp'
+                Image:
+                    source: 'LOGO.png'
+                    size_hint: .5, None
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: 'Profile'
+                            on_release:
+                                root.go_profile()
+                                nav_drawer.set_state('close')
 
+                        OneLineIconListItem:
+                            text: 'Reservation Cart'
+                            on_release:
+                                root.go_cart()
+                                nav_drawer.set_state('close')
 
+                        OneLineIconListItem:
+                            text: 'Reservation Status'
+                            on_release:
+                                root.go_status()
+                                nav_drawer.set_state('close')
 
+                        OneLineIconListItem:
+                            text: 'Settings'
+                            on_release:
+                                root.go_settings()
+                                nav_drawer.set_state('close')
 
-
-
-
-
-
-
+                        OneLineIconListItem:
+                            text: 'About Us'
+                            on_release:
+                                root.go_about()
+                                nav_drawer.set_state('close')
 
 <Store>
 <ProductDetails>

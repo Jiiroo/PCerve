@@ -13,7 +13,7 @@ from kivymd.uix.button import MDIconButton, MDFlatButton
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.theming import ThemableBehavior
-from kivymd.uix.list import MDList, OneLineIconListItem, TwoLineAvatarListItem, OneLineListItem, ILeftBodyTouch, ImageLeftWidget
+from kivymd.uix.list import MDList, OneLineIconListItem, TwoLineAvatarListItem
 from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
 
 
@@ -33,7 +33,7 @@ class Login(Screen):
             print('Wrong username or email or password')
         if self.usr_pass.text == rows[1][usr_index]:
             print('matched')
-            self.go_main(self.usr_name.text)
+            self.go_main()
             self.reset_field()
         else:
             print('Wrong username or email or password 2')
@@ -47,7 +47,8 @@ class Login(Screen):
         manage.current = 'register'
 
     @staticmethod
-    def go_main(info):
+    def go_main():
+        manage.current = 'main'
         print('Logged in')
 
     
@@ -76,6 +77,11 @@ class RegisterUser(Screen):
     @staticmethod
     def go_login():
         manage.current = 'login'
+
+    @staticmethod
+    def go_main():
+        manage.current = 'main'
+        print('Logged in')
     
 def conn_db(filename):
     try:
@@ -88,10 +94,30 @@ class ForgotPassword(Screen):
     pass
 
 
-
 class MainMenu(Screen):
-    def navigation_draw(self):
+    @staticmethod
+    def go_profile():
         pass
+
+    @staticmethod
+    def go_cart():
+        print('cart')
+        #manage.current = 'cart'
+
+    @staticmethod
+    def go_status():
+        pass
+
+    @staticmethod
+    def go_settings():
+        pass
+
+    @staticmethod
+    def go_about():
+        pass
+
+
+
 
 class ContentDrawer(Screen):
     pass
