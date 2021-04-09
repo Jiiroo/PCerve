@@ -1,0 +1,147 @@
+#:import utils kivy.utils
+<Login>
+    name: 'login'
+    usr: usr
+    passw: passw
+
+    bgcolor: 0/255, 139/255, 139/255, 1
+    canvas:
+        Color:
+            rgba: self.bgcolor
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    FloatLayout:
+        
+
+        Image:
+            source: 'LOGO.png'
+            size_hint: .5, .30
+            pos_hint: {'center_x': .5, 'center_y': .80}
+
+        MDTextField:
+            id: usr
+            hint_text: 'Username/Email'
+            multiline: False
+            write_tab: False
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            size_hint: .6, .1
+            pos_hint:{'center_x': .50, 'center_y': .50}
+
+        MDTextField:
+            id: passw
+            hint_text: 'Password'
+            multiline: False
+            write_tab: False
+            password: True
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            size_hint: .6, .1
+            pos_hint:{'center_x': .50, 'center_y': .40}
+
+        MDFillRoundFlatButton:
+            text:'Log In'
+            markup: True
+            md_bg_color: 0/255,206/255,209/255, 1
+            size_hint: .6, None
+            pos_hint: {'center_x': .50, 'center_y': .30}
+
+        MDTextButton:
+            text: '[color=#A9A9A9][b]Forgot Password[/b][/color]'
+            markup: True
+            pos_hint: {'center_x': .50, 'center_y': .20}
+
+        MDTextButton:
+            text: '[color=#A9A9A9][b]Sign Up[/b][/color]'
+            markup: True
+            pos_hint: {'center_x': .50, 'center_y': .15}
+            on_release: root.go_signup()
+
+        MDTextButton:
+            text:'[color=#FFFFFF][b]Skip[/b][/color]'
+            markup: True
+            md_bg_color: 1,1,1,1
+            size_hint: .2, .05
+            pos_hint: {'center_x': .90, 'center_y': .97}
+     
+<RegisterUser>
+    name: 'register'
+    usr_name: usr_name
+    usr_pass1: usr_pass1
+    usr_pass2: usr_pass2
+    
+    bgcolor: 0/255, 139/255, 139/255, 1
+    canvas:
+        Color:
+            rgba: self.bgcolor
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    FloatLayout:
+        
+
+        Image:
+            source: 'LOGO.png'
+            size_hint: .5, .30
+            pos_hint: {'center_x': .5, 'center_y': .80}
+
+        MDTextField:
+            id: usr_name
+            hint_text: 'Username/Email'
+            multiline: False
+            write_tab: False
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            size_hint: .6, .1
+            pos_hint:{'center_x': .50, 'center_y': .55}
+
+        MDTextField:
+            id: usr_pass1
+            hint_text: 'Password'
+            multiline: False
+            write_tab: False
+            password: True
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            size_hint: .6, .1
+            pos_hint:{'center_x': .50, 'center_y': .45}
+
+        MDTextField:
+            id: usr_pass2
+            hint_text: 'Confirm Password'
+            multiline: False
+            write_tab: False
+            password: True
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            size_hint: .6, .1
+            pos_hint:{'center_x': .50, 'center_y': .35}
+
+        MDFillRoundFlatButton:
+            text:'Sign Up'
+            markup: True
+            md_bg_color: 0/255,206/255,209/255, 1
+            size_hint: .6, None
+            pos_hint: {'center_x': .50, 'center_y': .25}
+            on_release: root.register()
+
+        MDTextButton:
+            text: '[color=#A9A9A9][b]or Log in[/b][/color]'
+            markup: True
+            pos_hint: {'center_x': .50, 'center_y': .15}
+            on_release: root.go_login()
+
+        MDTextButton:
+            text:'[color=#FFFFFF][b]Skip[/b][/color]'
+            markup: True
+            md_bg_color: 1,1,1,1
+            size_hint: .2, .05
+            pos_hint: {'center_x': .90, 'center_y': .97}
+
+<ForgotPassword>
+<MainMenu>
+<Store>
+<ProductDetails>
