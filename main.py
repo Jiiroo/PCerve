@@ -24,8 +24,20 @@ class Login(Screen):
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM users')
         rows = cursor.fetchall()
-        print(rows)
-    
+        if self.usr_name.text in rows[0]:
+            usr_index = rows[0].index(self.usr_name.text)
+            print(usr_index)
+        else:
+            print('Wrong username or email or password')
+        if self.usr_pass.text == rows[1][usr_index]:
+            print('matched')
+        else:
+            print('Wrong username or email or password 2')
+##        try:
+##            usr_index = rows[0].index(self.usr_name.text)
+##            print(usr_index)
+##        except ValueError as e:
+##            print(e)
     def reset_field(self):
         pass
 

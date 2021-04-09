@@ -1,8 +1,8 @@
 #:import utils kivy.utils
 <Login>
     name: 'login'
-    usr: usr
-    passw: passw
+    usr_name: usr_name
+    usr_pass: usr_pass
 
     bgcolor: 0/255, 139/255, 139/255, 1
     canvas:
@@ -21,7 +21,7 @@
             pos_hint: {'center_x': .5, 'center_y': .80}
 
         MDTextField:
-            id: usr
+            id: usr_name
             hint_text: 'Username/Email'
             multiline: False
             write_tab: False
@@ -31,7 +31,7 @@
             pos_hint:{'center_x': .50, 'center_y': .50}
 
         MDTextField:
-            id: passw
+            id: usr_pass
             hint_text: 'Password'
             multiline: False
             write_tab: False
@@ -47,6 +47,7 @@
             md_bg_color: 0/255,206/255,209/255, 1
             size_hint: .6, None
             pos_hint: {'center_x': .50, 'center_y': .30}
+            on_release: root.usr_login()
 
         MDTextButton:
             text: '[color=#A9A9A9][b]Forgot Password[/b][/color]'
