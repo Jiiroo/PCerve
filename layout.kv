@@ -13,8 +13,6 @@
             size: self.size
 
     FloatLayout:
-        
-
         Image:
             source: 'LOGO.png'
             size_hint: .5, .30
@@ -143,6 +141,39 @@
             pos_hint: {'center_x': .90, 'center_y': .97}
 
 <ForgotPassword>
+
 <MainMenu>
+    name: 'main'
+
+    NavigationLayout:
+
+        ScreenManager:
+
+            Screen:
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    MDToolbar:
+                        title: "Navigation Drawer"
+                        elevation: 10
+                        left_action_items: [['menu', lambda x: nav_drawer.set_state()]]
+
+                    Widget:
+
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+
+
+
+
+
+
+
+
+
+
 <Store>
 <ProductDetails>
