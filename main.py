@@ -37,13 +37,17 @@ class Login(Screen):
                 write_data = open('current_user.txt', 'w')
                 write_data.write(self.usr_name.text)
                 write_data.close()
-                manage.current = 'store'
+                self.go_main()
             else:
                 print('Wrong username or email or password 2')
 
         else:
             print('Wrong username or email or password')
         self.reset_field()
+
+    @staticmethod
+    def go_main():
+        manage.current = 'store'
 
     def reset_field(self):
         self.usr_name.text = ''
@@ -96,13 +100,6 @@ class RegisterUser(Screen):
         print('Logged in')
 
 
-def conn_db(filename):
-    try:
-        conn = sqlite3.connect(filename)
-    except Error as e:
-        print(e)
-    return conn
-
 class PersonalInfo(Screen):
     pass
 
@@ -148,7 +145,7 @@ class Profile(Screen):
 
 class WIDGETS(TwoLineAvatarListItem):
     index = NumericProperty()
-    icon = StringProperty('android')
+    icon = StringProperty()
 
 
 class IconLeftSampleWidget(ImageLeftWidget, MDIconButton):
@@ -166,7 +163,8 @@ class Store(Screen):
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = WIDGETS(index=info[3], text=f'{info[1]}', secondary_text=f'{info[2]}',
+                store_widgets = WIDGETS(index=info[3], icon=f'assets/{info[2]}/icon.png',
+                                        text=f'{info[1]}', secondary_text=f'{info[2]}',
                                         on_release=self.on_press)
                 self.ids.content.add_widget(store_widgets)
 
@@ -223,6 +221,14 @@ class Settings(Screen):
 
 class About(Screen):
     pass
+
+
+def conn_db(filename):
+    try:
+        conn = sqlite3.connect(filename)
+    except Error as e:
+        print(e)
+    return conn
 
 
 class ProductDetails(Screen):
