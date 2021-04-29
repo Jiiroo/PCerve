@@ -4,10 +4,9 @@
     usr_name: usr_name
     usr_pass: usr_pass
 
-    bgcolor: 0/255, 139/255, 139/255, 1
     canvas:
         Color:
-            rgba: self.bgcolor
+            rgba: 0/255, 139/255, 139/255, 1
         Rectangle:
             pos: self.pos
             size: self.size
@@ -20,7 +19,7 @@
 
         MDTextField:
             id: usr_name
-            hint_text: 'Username/Email'
+            hint_text: 'Email'
             multiline: False
             write_tab: False
             color_mode: 'custom'
@@ -56,6 +55,7 @@
             text: '[color=#A9A9A9][b]Sign Up[/b][/color]'
             markup: True
             pos_hint: {'center_x': .50, 'center_y': .15}
+            size_hint: .2, .05
             on_release: root.go_signup()
 
         MDTextButton:
@@ -64,23 +64,22 @@
             md_bg_color: 1,1,1,1
             size_hint: .2, .05
             pos_hint: {'center_x': .90, 'center_y': .97}
+            on_release: root.go_main()
      
 <RegisterUser>
     name: 'register'
     usr_name: usr_name
     usr_pass1: usr_pass1
     usr_pass2: usr_pass2
-    
-    bgcolor: 0/255, 139/255, 139/255, 1
+
     canvas:
         Color:
-            rgba: self.bgcolor
+            rgba: 0/255, 139/255, 139/255, 1
         Rectangle:
             pos: self.pos
             size: self.size
 
     FloatLayout:
-        
 
         Image:
             source: 'LOGO.png'
@@ -89,7 +88,7 @@
 
         MDTextField:
             id: usr_name
-            hint_text: 'Username/Email'
+            hint_text: 'Email'
             multiline: False
             write_tab: False
             color_mode: 'custom'
@@ -131,6 +130,7 @@
             text: '[color=#A9A9A9][b]or Log in[/b][/color]'
             markup: True
             pos_hint: {'center_x': .50, 'center_y': .15}
+            size_hint: .2, .05
             on_release: root.go_login()
 
         MDTextButton:
@@ -143,65 +143,116 @@
 
 <ForgotPassword>
 
-<MainMenu>
-    name: 'main'
+<NavDrawer>
 
-    NavigationLayout:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '8dp'
+        spacing: '8dp'
+        Image:
+            source: 'LOGO.png'
+            size_hint: .5, None
+
+        ScrollView:
+            MDList:
+                OneLineIconListItem:
+                    text: 'Profile'
+                    on_release:
+                        root.go_profile()
+
+                OneLineIconListItem:
+                    text: 'Reservation Cart'
+                    on_release:
+                        root.go_cart()
+
+
+                OneLineIconListItem:
+                    text: 'Reservation Status'
+                    on_release:
+                        root.go_status()
+
+
+                OneLineIconListItem:
+                    text: 'Settings'
+                    on_release:
+                        root.go_settings()
+
+
+                OneLineIconListItem:
+                    text: 'About Us'
+                    on_release:
+                        root.go_about()
+
+
+                OneLineIconListItem:
+                    text: 'Logout'
+                    on_release:
+                        root.out()
+
+
+<Profile>
+    name: 'profile'
+
+    bgcolor: 0/255, 139/255, 139/255, 1
+    canvas:
+        Color:
+            rgba: self.bgcolor
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    FloatLayout:
+        MDTextButton:
+            text:'[color=#FFFFFF][b]Back[/b][/color]'
+            markup: True
+            md_bg_color: 1,1,1,1
+            size_hint: 5, 5
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            on_release: root.go_back()
+
+
+<Store>
+    name: 'store'
+
+    bgcolor: 0/255, 139/255, 139/255, 1
+    canvas:
+        Color:
+            rgba: self.bgcolor
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDNavigationLayout:
 
         ScreenManager:
-            id: sm
+
             Screen:
 
                 BoxLayout:
-                    orientation: 'vertical'
+                    orientation: "vertical"
 
                     MDToolbar:
-                        title: "PCerve"
+                        title: "Stores"
+                        md_bg_color: app.theme_cls.primary_color
                         elevation: 10
-                        left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
+                        left_action_items: [["menu", lambda x: nav_drawer.set_state("toggle")]]
 
-                    Widget:
+                    MDScrollViewRefreshLayout:
+                        id: refresh_layout
+                        refresh_callback: root.refresh_callback
+                        root_layout: root
+
+                        MDGridLayout:
+                            id: content
+                            adaptive_height: True
+                            cols: 1
+
 
         MDNavigationDrawer:
             id: nav_drawer
-            BoxLayout:
-                orientation: 'vertical'
-                padding: '8dp'
-                spacing: '8dp'
-                Image:
-                    source: 'LOGO.png'
-                    size_hint: .5, None
-                ScrollView:
-                    MDList:
-                        OneLineIconListItem:
-                            text: 'Profile'
-                            on_release:
-                                root.go_profile()
-                                nav_drawer.set_state('close')
 
-                        OneLineIconListItem:
-                            text: 'Reservation Cart'
-                            on_release:
-                                root.go_cart()
-                                nav_drawer.set_state('close')
+            NavDrawer:
+                id: content_drawer
 
-                        OneLineIconListItem:
-                            text: 'Reservation Status'
-                            on_release:
-                                root.go_status()
-                                nav_drawer.set_state('close')
 
-                        OneLineIconListItem:
-                            text: 'Settings'
-                            on_release:
-                                root.go_settings()
-                                nav_drawer.set_state('close')
-
-                        OneLineIconListItem:
-                            text: 'About Us'
-                            on_release:
-                                root.go_about()
-                                nav_drawer.set_state('close')
-
-<Store>
 <ProductDetails>
