@@ -15,7 +15,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.list import ImageLeftWidget, MDList, OneLineIconListItem, TwoLineAvatarListItem
 from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
-
+from kivymd.uix.card import MDCard
 
 class Login(Screen):
     usr_name = ObjectProperty(None)
@@ -143,10 +143,11 @@ class Profile(Screen):
     def go_back():
         manage.current = 'store'
 
-class WIDGETS(TwoLineAvatarListItem):
+class Card(MDCard):
     index = NumericProperty()
     icon = StringProperty()
-
+    title = StringProperty()
+    address = StringProperty()
 
 class IconLeftSampleWidget(ImageLeftWidget, MDIconButton):
 
@@ -163,8 +164,8 @@ class Store(Screen):
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = WIDGETS(index=info[3], icon=f'assets/{info[2]}/icon.png',
-                                        text=f'{info[1]}', secondary_text=f'{info[2]}',
+                store_widgets = Card(index=info[4], icon=f'assets/{info[2]}/icon.png',
+                                        title=f'{info[1]}', address=f'{info[3]}',
                                         on_release=self.on_press)
                 self.ids.content.add_widget(store_widgets)
 

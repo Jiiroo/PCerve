@@ -230,6 +230,7 @@
 
                 BoxLayout:
                     orientation: "vertical"
+                    spacing: "10dp"
 
                     MDToolbar:
                         title: "Stores"
@@ -245,20 +246,40 @@
                         MDGridLayout:
                             id: content
                             adaptive_height: True
-                            cols: 1
-
+                            cols: 2
 
         MDNavigationDrawer:
             id: nav_drawer
 
             NavDrawer:
                 id: content_drawer
+<Card>
+    orientation: "vertical"
+    size_hint: 1, None
+    canvas:
+        Color:
+            rgba: 0/255,206/255,209/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
-<WIDGETS>
-    text: root.text
-    secondary_text: root.secondary_text
+    MDBoxLayout:
+        Image:
+            source: root.icon
+            size_hint: .5, 1
 
-    ImageLeftWidget:
-        source: root.icon
+        MDBoxLayout:
+            cols: 1
+            orientation: "vertical"
+            size_hint: 1, 1
+            MDLabel:
+                text: root.title
+                theme_text_color: "Secondary"
+
+            MDSeparator:
+
+            MDLabel:
+                text: root.address
+                theme_text_color: "Secondary"
 
 <ProductDetails>
