@@ -17,11 +17,13 @@ from kivymd.uix.list import ImageLeftWidget, MDList, OneLineIconListItem, TwoLin
 from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
 from kivymd.uix.card import MDCard
 
+
 class Login(Screen):
     usr_name = ObjectProperty(None)
     usr_pass = ObjectProperty(None)
 
     def usr_login(self):
+        global log_usr
         temp_username = []
         conn = conn_db('usr_acc.db')
         cursor = conn.cursor()
@@ -34,9 +36,12 @@ class Login(Screen):
             print(usr_index)
             if self.usr_pass.text == rows[usr_index][1]:
                 print('matched')
-                write_data = open('current_user.txt', 'w')
-                write_data.write(self.usr_name.text)
-                write_data.close()
+                # write_data = open('current_user.txt', 'w')
+                # write_data.write(self.usr_name.text)
+                # write_data.close()
+
+                log_usr = self.usr_name.text
+
                 self.go_main()
             else:
                 print('Wrong username or email or password 2')
@@ -147,11 +152,7 @@ class Card(MDCard):
     index = NumericProperty()
     icon = StringProperty()
     title = StringProperty()
-    address = StringProperty()
 
-class IconLeftSampleWidget(ImageLeftWidget, MDIconButton):
-
-    pass
 
 class Store(Screen):
     def __init__(self, **kwargs):
@@ -160,12 +161,12 @@ class Store(Screen):
     def on_enter(self, *args):
         # Icon for list of stores
         data_items = self.store_direct()
-
+        print(log_usr)
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
                 store_widgets = Card(index=info[4], icon=f'assets/{info[2]}/icon.png',
-                                        title=f'{info[1]}', address=f'{info[3]}',
+                                        title=f'{info[1]}',
                                         on_release=self.on_press)
                 self.ids.content.add_widget(store_widgets)
 
@@ -206,7 +207,10 @@ class Store(Screen):
         return data_items
 
     def on_press(self, instance):
+        global store_index
+        store_index = instance.index
         print(instance.index)
+        
 
 class Cart(Screen):
     pass
@@ -261,6 +265,8 @@ class Manager(ScreenManager):
     pass
 
 
+log_usr = None
+store_index = None
 manage = Manager()
 
 if __name__ == "__main__":
