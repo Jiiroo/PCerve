@@ -35,11 +35,6 @@ class Login(Screen):
             usr_index = temp_username.index(self.usr_name.text)
             print(usr_index)
             if self.usr_pass.text == rows[usr_index][1]:
-                print('matched')
-                # write_data = open('current_user.txt', 'w')
-                # write_data.write(self.usr_name.text)
-                # write_data.close()
-
                 log_usr = self.usr_name.text
 
                 self.go_main()
@@ -111,8 +106,8 @@ class PersonalInfo(Screen):
 class ForgotPassword(Screen):
     pass
 
-
 class NavDrawer(Screen):
+
     @staticmethod
     def go_profile():
         manage.current = 'profile'
@@ -162,10 +157,11 @@ class Store(Screen):
         # Icon for list of stores
         data_items = self.store_direct()
         print(log_usr)
+
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = Card(index=info[4], icon=f'assets/{info[2]}/icon.png',
+                store_widgets = Card(index=info[3], icon=f'assets/{info[0]}/icon.png',
                                         title=f'{info[1]}',
                                         on_release=self.on_press)
                 self.ids.content.add_widget(store_widgets)
@@ -200,15 +196,17 @@ class Store(Screen):
 
         for row in rows:
             reset_data.append(row)
-        data_items = reset_data
+        # data_items = reset_data
 
         cursor.close()
         print(rows)
-        return data_items
+        return reset_data  # data_items
 
     def on_press(self, instance):
         global store_index
         store_index = instance.index
+        manage.current = 'products'
+        self.ids.content.clear_widgets()
         print(instance.index)
         
 
@@ -235,10 +233,75 @@ def conn_db(filename):
         print(e)
     return conn
 
+class ProductCard(MDCard):
+    index = NumericProperty()
+    image = StringProperty()
+    name = StringProperty()
+
 
 class ProductDetails(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(ProductDetails, self).__init__(**kwargs)
 
+    def on_enter(self, *args):
+        # Icon for list of stores
+        data_items = self.product_direct()
+        print(log_usr)
+
+        async def on_enter():
+            for info in data_items:
+                await asynckivy.sleep(0)
+                store_widgets = ProductCard(index=info[6], image=f'assets/{store_index}/{info[0]}.jpg',
+                                            name=f'{info[1]}',
+                                            on_release=self.on_press)
+                self.ids.content.add_widget(store_widgets)
+
+        asynckivy.start(on_enter())
+
+    def refresh_callback(self, *args):
+        '''A method that updates the state of your application
+        while the spinner remains on the screen.'''
+
+        def refresh_callback(interval):
+            self.ids.content.clear_widgets()
+
+            if self.x == 0:
+                self.x, self.y = 0, 0
+            else:
+                self.x, self.y = 0, 0
+            self.on_enter()
+            self.ids.refresh_layout.refresh_done()
+            self.tick = 0
+
+        Clock.schedule_once(refresh_callback, 1)
+
+    def product_direct(self):
+        reset_data = []
+        data_items = []
+        conn = conn_db(f'assets/stores/{store_index}.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM products")
+        cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM products")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            reset_data.append(row)
+        data_items = reset_data
+
+        cursor.close()
+
+        return data_items
+
+    def on_press(self, instance):
+        global product_index
+        product_index = instance.index
+        manage.current = 'products'
+        self.ids.content.clear_widgets()
+        print(instance.index)
+
+    def back_store(self):
+        self.ids.content.clear_widgets()
+        manage.current = 'store'
 
 class MyApp(MDApp):
     def __init__(self, **kwargs):
@@ -254,7 +317,8 @@ class MyApp(MDApp):
         navigating = [RegisterUser(name='register'),
                       Login(name='login'),
                       Store(name='store'),
-                      Profile(name='profile')]
+                      Profile(name='profile'),
+                      ProductDetails(name='products')]
 
         for navigate in navigating:
             manage.add_widget(navigate)
@@ -267,7 +331,9 @@ class Manager(ScreenManager):
 
 log_usr = None
 store_index = None
+product_index = None
 manage = Manager()
 
 if __name__ == "__main__":
     MyApp().run()
+    Clock.max_iteration = 20
