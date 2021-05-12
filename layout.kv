@@ -251,6 +251,7 @@
                             adaptive_height: True
                             cols: 1
                             padding: '8dp'
+                            spacing: '6dp'
 
         MDNavigationDrawer:
             id: nav_drawer
@@ -299,7 +300,7 @@
             size_hint: 1, 1
             MDLabel:
                 text: root.name
-                font_style: "H5"
+                font_style: "Caption"
                 theme_text_color: 'Custom'
                 halign: 'center'
                 text_color: 25/255, 0, 0, 1
@@ -321,6 +322,8 @@
             root_layout: root
 
             MDGridLayout:
-                id: content
+                id: contents
                 adaptive_height: True
                 cols: 1
+                padding: '8dp'
+                spacing: '6dp'

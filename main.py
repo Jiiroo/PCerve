@@ -254,7 +254,7 @@ class ProductDetails(Screen):
                 store_widgets = ProductCard(index=info[6], image=f'assets/{store_index}/{info[0]}.jpg',
                                             name=f'{info[1]}',
                                             on_release=self.on_press)
-                self.ids.content.add_widget(store_widgets)
+                self.ids.contents.add_widget(store_widgets)
 
         asynckivy.start(on_enter())
 
@@ -263,7 +263,7 @@ class ProductDetails(Screen):
         while the spinner remains on the screen.'''
 
         def refresh_callback(interval):
-            self.ids.content.clear_widgets()
+            self.ids.contents.clear_widgets()
 
             if self.x == 0:
                 self.x, self.y = 0, 0
@@ -295,12 +295,11 @@ class ProductDetails(Screen):
     def on_press(self, instance):
         global product_index
         product_index = instance.index
-        manage.current = 'products'
-        self.ids.content.clear_widgets()
+        # self.ids.contents.clear_widgets()
         print(instance.index)
 
     def back_store(self):
-        self.ids.content.clear_widgets()
+        self.ids.contents.clear_widgets()
         manage.current = 'store'
 
 class MyApp(MDApp):
@@ -336,4 +335,3 @@ manage = Manager()
 
 if __name__ == "__main__":
     MyApp().run()
-    Clock.max_iteration = 20
