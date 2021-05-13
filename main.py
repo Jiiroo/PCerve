@@ -299,6 +299,7 @@ class ProductDetails(Screen):
         print(instance.index)
 
     def back_store(self):
+        
         self.ids.contents.clear_widgets()
         manage.current = 'store'
 
