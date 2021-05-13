@@ -25,7 +25,7 @@ class Login(Screen):
     def usr_login(self):
         global log_usr
         temp_username = []
-        conn = conn_db('usr_acc.db')
+        conn = conn_db('./usr_acc.db')
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM users')
         rows = cursor.fetchall()
@@ -33,16 +33,18 @@ class Login(Screen):
             temp_username.append(usernames[0])
         if self.usr_name.text in temp_username:
             usr_index = temp_username.index(self.usr_name.text)
-            print(usr_index)
+
             if self.usr_pass.text == rows[usr_index][1]:
                 log_usr = self.usr_name.text
 
                 self.go_main()
             else:
-                print('Wrong username or email or password 2')
+                pass
+                # print('Wrong username or email or password 2')
 
         else:
-            print('Wrong username or email or password')
+            pass
+            # print('Wrong username or email or password')
         self.reset_field()
 
     @staticmethod
@@ -64,7 +66,7 @@ class RegisterUser(Screen):
 
     def register(self):
         if self.usr_pass1.text == self.usr_pass2.text:
-            conn = conn_db('usr_acc.db')
+            conn = conn_db('./usr_acc.db')
             cursor = conn.cursor()
             cursor.execute('CREATE TABLE IF NOT EXISTS users(login_cred, password)')
             insert_query = 'INSERT INTO users (login_cred, password) VALUES (?,?)'
@@ -72,7 +74,7 @@ class RegisterUser(Screen):
             conn.commit()
             cursor.close()
 
-            conn = conn_db(f'assets/data/{self.usr_name.text}.db')
+            conn = conn_db(f'./assets/data/{self.usr_name.text}.db')
             cursor = conn.cursor()
             cursor.execute('CREATE TABLE IF NOT EXISTS users(login_cred, password)')
             insert_query = 'INSERT INTO users (login_cred, password) VALUES (?,?)'
@@ -97,7 +99,7 @@ class RegisterUser(Screen):
     @staticmethod
     def go_main():
         manage.current = 'store'
-        print('Logged in')
+        # print('Logged in')
 
 
 class PersonalInfo(Screen):
@@ -118,7 +120,8 @@ class NavDrawer(Screen):
 
     @staticmethod
     def go_cart():
-        print('cart')
+        pass
+        # print('cart')
         # manage.current = 'cart'
 
     @staticmethod
@@ -156,12 +159,11 @@ class Store(Screen):
     def on_enter(self, *args):
         # Icon for list of stores
         data_items = self.store_direct()
-        print(log_usr)
 
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = Card(index=info[3], icon=f'assets/{info[0]}/icon.png',
+                store_widgets = Card(index=info[3], icon=f'./assets/{info[0]}/icon.png',
                                         title=f'{info[1]}',
                                         on_release=self.on_press)
                 self.ids.content.add_widget(store_widgets)
@@ -188,7 +190,7 @@ class Store(Screen):
     def store_direct(self):
         reset_data = []
         data_items = []
-        conn = conn_db('store_direct.db')
+        conn = conn_db('./store_direct.db')
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM details")
         cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM details")
@@ -199,7 +201,7 @@ class Store(Screen):
         # data_items = reset_data
 
         cursor.close()
-        print(rows)
+
         return reset_data  # data_items
 
     def on_press(self, instance):
@@ -207,7 +209,7 @@ class Store(Screen):
         store_index = instance.index
         manage.current = 'products'
         self.ids.content.clear_widgets()
-        print(instance.index)
+        # print(instance.index)
         
 
 class Cart(Screen):
@@ -230,7 +232,8 @@ def conn_db(filename):
     try:
         conn = sqlite3.connect(filename)
     except Error as e:
-        print(e)
+        pass
+        # print(e)
     return conn
 
 class ProductCard(MDCard):
@@ -246,12 +249,11 @@ class ProductDetails(Screen):
     def on_enter(self, *args):
         # Icon for list of stores
         data_items = self.product_direct()
-        print(log_usr)
 
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = ProductCard(index=info[6], image=f'assets/{store_index}/{info[0]}.jpg',
+                store_widgets = ProductCard(index=info[6], image=f'./assets/{store_index}/{info[0]}.jpg',
                                             name=f'{info[1]}',
                                             on_release=self.on_press)
                 self.ids.contents.add_widget(store_widgets)
@@ -278,7 +280,7 @@ class ProductDetails(Screen):
     def product_direct(self):
         reset_data = []
         data_items = []
-        conn = conn_db(f'assets/stores/{store_index}.db')
+        conn = conn_db(f'./assets/stores/{store_index}.db')
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM products")
         cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM products")
@@ -296,7 +298,7 @@ class ProductDetails(Screen):
         global product_index
         product_index = instance.index
         # self.ids.contents.clear_widgets()
-        print(instance.index)
+        # print(instance.index)
 
     def back_store(self):
         
@@ -309,7 +311,7 @@ class MyApp(MDApp):
         super().__init__(**kwargs)
 
     def build(self):
-        Builder.load_file("layout.kv")
+        Builder.load_file("./layout.kv")
 
         return manage
 
