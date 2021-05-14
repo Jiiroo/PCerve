@@ -163,7 +163,7 @@ class Store(Screen):
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = Card(index=info[3], icon=f'./assets/{info[0]}/icon.png',
+                store_widgets = Card(index=info[0], icon=f'./assets/{info[0]}/icon.png',
                                         title=f'{info[1]}',
                                         on_release=self.on_press)
                 self.ids.content.add_widget(store_widgets)
@@ -193,7 +193,7 @@ class Store(Screen):
         conn = conn_db('./store_direct.db')
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM details")
-        cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM details")
+        # cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM details")
         rows = cursor.fetchall()
 
         for row in rows:
@@ -253,7 +253,7 @@ class ProductDetails(Screen):
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = ProductCard(index=info[6], image=f'./assets/{store_index}/{info[0]}.jpg',
+                store_widgets = ProductCard(index=info[0], image=f'./assets/{store_index}/{info[0]}.jpg',
                                             name=f'{info[1]}',
                                             on_release=self.on_press)
                 self.ids.contents.add_widget(store_widgets)
@@ -283,7 +283,7 @@ class ProductDetails(Screen):
         conn = conn_db(f'./assets/stores/{store_index}.db')
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM products")
-        cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM products")
+        # cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM products")
         rows = cursor.fetchall()
 
         for row in rows:
