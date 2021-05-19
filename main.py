@@ -49,7 +49,8 @@ class Login(Screen):
 
     @staticmethod
     def go_main():
-        manage.current = 'store'
+        pass
+        # manage.current = 'store'
 
     def reset_field(self):
         self.usr_name.text = ''
@@ -57,7 +58,8 @@ class Login(Screen):
 
     @staticmethod
     def go_signup():
-        manage.current = 'register'
+        pass
+        # manage.current = 'register'
 
 class RegisterUser(Screen):
     usr_name = ObjectProperty(None)
@@ -83,7 +85,7 @@ class RegisterUser(Screen):
             cursor.close()
 
             self.reset_field()
-            manage.current = 'login'
+            # manage.current = 'login'
         else:
             self.reset_field()
 
@@ -94,11 +96,13 @@ class RegisterUser(Screen):
 
     @staticmethod
     def go_login():
-        manage.current = 'login'
+        pass
+        # manage.current = 'login'
 
     @staticmethod
     def go_main():
-        manage.current = 'store'
+        pass
+        # manage.current = 'store'
         # print('Logged in')
 
 
@@ -108,43 +112,8 @@ class PersonalInfo(Screen):
 class ForgotPassword(Screen):
     pass
 
-class NavDrawer(Screen):
-
-    @staticmethod
-    def go_profile():
-        manage.current = 'profile'
-
-    @staticmethod
-    def go_store():
-        pass
-
-    @staticmethod
-    def go_cart():
-        pass
-        # print('cart')
-        # manage.current = 'cart'
-
-    @staticmethod
-    def go_status():
-        pass
-
-    @staticmethod
-    def go_settings():
-        pass
-
-    @staticmethod
-    def go_about():
-        pass
-
-    @staticmethod
-    def out():
-        manage.current = 'login'
-
-
 class Profile(Screen):
-    @staticmethod
-    def go_back():
-        manage.current = 'store'
+    pass
 
 class Card(MDCard):
     index = NumericProperty()
@@ -190,9 +159,9 @@ class Store(Screen):
     def store_direct(self):
         reset_data = []
         data_items = []
-        conn = conn_db('./store_direct.db')
+        conn = conn_db('./assets/data/pcerve_data.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM details")
+        cursor.execute("SELECT * FROM directory")
         # cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM details")
         rows = cursor.fetchall()
 
@@ -207,8 +176,9 @@ class Store(Screen):
     def on_press(self, instance):
         global store_index
         store_index = instance.index
-        manage.current = 'products'
+        # manage.current = 'products'
         self.ids.content.clear_widgets()
+        print(store_index)
         # print(instance.index)
         
 
@@ -242,9 +212,9 @@ class ProductCard(MDCard):
     name = StringProperty()
 
 
-class ProductDetails(Screen):
+class Products(Screen):
     def __init__(self, **kwargs):
-        super(ProductDetails, self).__init__(**kwargs)
+        super(Products, self).__init__(**kwargs)
 
     def on_enter(self, *args):
         # Icon for list of stores
@@ -256,7 +226,7 @@ class ProductDetails(Screen):
                 store_widgets = ProductCard(index=info[0], image=f'./assets/{store_index}/{info[0]}.jpg',
                                             name=f'{info[1]}',
                                             on_release=self.on_press)
-                self.ids.contents.add_widget(store_widgets)
+                self.ids.content.add_widget(store_widgets)
 
         asynckivy.start(on_enter())
 
@@ -265,7 +235,7 @@ class ProductDetails(Screen):
         while the spinner remains on the screen.'''
 
         def refresh_callback(interval):
-            self.ids.contents.clear_widgets()
+            self.ids.content.clear_widgets()
 
             if self.x == 0:
                 self.x, self.y = 0, 0
@@ -280,9 +250,9 @@ class ProductDetails(Screen):
     def product_direct(self):
         reset_data = []
         data_items = []
-        conn = conn_db(f'./assets/stores/{store_index}.db')
+        conn = conn_db(f'./assets/data/pcerve_data.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM products")
+        cursor.execute(f"SELECT * FROM store_{store_index}")
         # cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM products")
         rows = cursor.fetchall()
 
@@ -297,13 +267,14 @@ class ProductDetails(Screen):
     def on_press(self, instance):
         global product_index
         product_index = instance.index
+        #self.ids.contents.clear_widgets()
         # self.ids.contents.clear_widgets()
         # print(instance.index)
 
-    def back_store(self):
-        
-        self.ids.contents.clear_widgets()
-        manage.current = 'store'
+
+class ProductDetails(Screen):
+    pass
+
 
 class MyApp(MDApp):
     def __init__(self, **kwargs):
@@ -311,30 +282,18 @@ class MyApp(MDApp):
         super().__init__(**kwargs)
 
     def build(self):
-        Builder.load_file("./layout.kv")
+        kv_run = Builder.load_file("./layout.kv")
+        return kv_run
 
-        return manage
-
-    def on_start(self):
-        navigating = [RegisterUser(name='register'),
-                      Login(name='login'),
-                      Store(name='store'),
-                      Profile(name='profile'),
-                      ProductDetails(name='products')]
-
-        for navigate in navigating:
-            manage.add_widget(navigate)
-        manage.current = 'register'
-
-
-class Manager(ScreenManager):
-    pass
+    def show_screen(self, name):
+        self.root.current = 'nav_screen'
+        self.root.get_screen('nav_screen').ids.manage.current = name
+        return True
 
 
 log_usr = None
 store_index = None
 product_index = None
-manage = Manager()
 
 if __name__ == "__main__":
     MyApp().run()

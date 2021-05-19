@@ -1,4 +1,8 @@
 #:import utils kivy.utils
+ScreenManager:
+    NavLayoutScreen:
+        name: 'nav_screen'
+
 <Login>
     name: 'login'
     usr_name: usr_name
@@ -56,7 +60,7 @@
             markup: True
             pos_hint: {'center_x': .50, 'center_y': .15}
             size_hint: .2, .05
-            on_release: root.go_signup()
+            on_release: app.show_screen('register')
 
         MDTextButton:
             text:'[color=#FFFFFF][b]Skip[/b][/color]'
@@ -64,7 +68,7 @@
             md_bg_color: 1,1,1,1
             size_hint: .2, .05
             pos_hint: {'center_x': .90, 'center_y': .97}
-            on_release: root.go_main()
+            on_release: app.show_screen('store')
      
 <RegisterUser>
     name: 'register'
@@ -80,7 +84,6 @@
             size: self.size
 
     FloatLayout:
-
         Image:
             source: 'LOGO.png'
             size_hint: .5, .30
@@ -131,7 +134,7 @@
             markup: True
             pos_hint: {'center_x': .50, 'center_y': .15}
             size_hint: .2, .05
-            on_release: root.go_login()
+            on_release: app.show_screen('login', 'login')
 
         MDTextButton:
             text:'[color=#FFFFFF][b]Skip[/b][/color]'
@@ -139,59 +142,90 @@
             md_bg_color: 1,1,1,1
             size_hint: .2, .05
             pos_hint: {'center_x': .90, 'center_y': .97}
-            on_release: root.go_main()
+            on_release: app.show_screen('store')
 
 <ForgotPassword>
 
-<NavigationWidgets>
-    text: root.title
+<NavLayoutScreen@Screen>:
+    MDNavigationLayout
+        id: navigation_layout
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
 
-<NavDrawer>
+                    MDToolbar:
+                        title: 'PCerve'
+                        elevation: 10
+                        left_action_items: [['menu', lambda x: nav_drawer.set_state('open') ]]
+                    ScreenManager:
+                        id: manage
 
-    BoxLayout:
-        orientation: 'vertical'
-        padding: '8dp'
-        spacing: '8dp'
-        Image:
-            source: 'LOGO.png'
-            size_hint: .6, None
+                        Store:
+                            id: store
+                            name: 'store'
+
+                        Products:
+                            id: products
+                            name: 'products'
+
+                        Profile:
+                            id: profile
+                            name: 'profile'
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: "8dp"
+                spacing: '8dp'
+
+                ScrollView:
+                    MDList:
+
+                        OneLineIconListItem:
+                            text: 'Stores'
+                            on_release:
+                                app.show_screen('store')
+                                nav_drawer.set_state('close')
+                                products.ids.content.clear_widgets()
+
+                        OneLineIconListItem:
+                            text: 'Profile'
+                            on_release:
+                                app.show_screen('profile')
+                                nav_drawer.set_state('close')
+                                store.ids.content.clear_widgets()
+
+                        OneLineIconListItem:
+                            text: 'Reservation Cart'
+                            on_release:
+                                store.ids.content.clear_widgets()
 
 
-        ScrollView:
-            MDList:
-                OneLineIconListItem:
-                    text: 'Profile'
-                    on_release:
-                        root.go_profile()
-
-                OneLineIconListItem:
-                    text: 'Reservation Cart'
-                    on_release:
-                        root.go_cart()
+                        OneLineIconListItem:
+                            text: 'Reservation Status'
+                            on_release:
+                                store.ids.content.clear_widgets()
 
 
-                OneLineIconListItem:
-                    text: 'Reservation Status'
-                    on_release:
-                        root.go_status()
+                        OneLineIconListItem:
+                            text: 'Settings'
+                            on_release:
+                                store.ids.content.clear_widgets()
 
 
-                OneLineIconListItem:
-                    text: 'Settings'
-                    on_release:
-                        root.go_settings()
+                        OneLineIconListItem:
+                            text: 'About Us'
+                            on_release:
+                                store.ids.content.clear_widgets()
 
 
-                OneLineIconListItem:
-                    text: 'About Us'
-                    on_release:
-                        root.go_about()
-
-
-                OneLineIconListItem:
-                    text: 'Logout'
-                    on_release:
-                        root.out()
+                        OneLineIconListItem:
+                            text: 'Logout'
+                            on_release:
+                                store.ids.content.clear_widgets()
 
 <Profile>
     name: 'profile'
@@ -204,16 +238,8 @@
             pos: self.pos
             size: self.size
 
-    FloatLayout:
-        MDTextButton:
-            text:'[color=#FFFFFF][b]Back[/b][/color]'
-            markup: True
-            md_bg_color: 1,1,1,1
-            size_hint: 5, 5
-            pos_hint: {'center_x': .5, 'center_y': .5}
-            on_release:
-                root.go_back()
 
+#
 <Store>
     name: 'store'
 
@@ -225,39 +251,24 @@
             pos: self.pos
             size: self.size
 
-    MDNavigationLayout:
+    BoxLayout:
+        orientation: "vertical"
+        spacing: "10dp"
 
-        ScreenManager:
+        MDScrollViewRefreshLayout:
+            id: refresh_layout
+            refresh_callback: root.refresh_callback
+            root_layout: root
 
-            Screen:
+            MDGridLayout:
+                id: content
+                adaptive_height: True
+                cols: 1
+                padding: '8dp'
+                spacing: '6dp'
 
-                BoxLayout:
-                    orientation: "vertical"
-                    spacing: "10dp"
 
-                    MDToolbar:
-                        title: "Stores"
-                        md_bg_color: app.theme_cls.primary_color
-                        elevation: 10
-                        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
 
-                    MDScrollViewRefreshLayout:
-                        id: refresh_layout
-                        refresh_callback: root.refresh_callback
-                        root_layout: root
-
-                        MDGridLayout:
-                            id: content
-                            adaptive_height: True
-                            cols: 1
-                            padding: '8dp'
-                            spacing: '6dp'
-
-        MDNavigationDrawer:
-            id: nav_drawer
-
-            NavDrawer:
-                id: content_drawer
 <Card>
     orientation: "vertical"
     size_hint: 1, None
@@ -267,6 +278,8 @@
         Rectangle:
             pos: self.pos
             size: self.size
+    on_release:
+        app.show_screen('products')
 
     MDBoxLayout:
         Image:
@@ -305,16 +318,10 @@
                 halign: 'center'
                 text_color: 25/255, 0, 0, 1
 
-<ProductDetails>
+<Products>
     name: 'products'
     BoxLayout:
         orientation: 'vertical'
-        MDToolbar:
-            title: 'List of Students'
-            specific_text_color: 1, 1, 1, 1
-            md_bg_color:  0.53333, 0.67058, 0.89019, 1
-            elevation: 3
-            left_action_items: [['arrow-left', lambda x: root.back_store()]]
 
         MDScrollViewRefreshLayout:
             id: refresh_layout
@@ -322,7 +329,7 @@
             root_layout: root
 
             MDGridLayout:
-                id: contents
+                id: content
                 adaptive_height: True
                 cols: 1
                 padding: '8dp'
