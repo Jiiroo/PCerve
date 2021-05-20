@@ -157,6 +157,7 @@ ScreenManager:
                     MDToolbar:
                         title: 'PCerve'
                         elevation: 10
+                        md_bg_color: app.colors(2)
                         left_action_items: [['menu', lambda x: nav_drawer.set_state('open') ]]
                     ScreenManager:
                         id: manage
@@ -168,6 +169,10 @@ ScreenManager:
                         Products:
                             id: products
                             name: 'products'
+
+                        ProductDetails:
+                            id: product_details
+                            name: 'product_details'
 
                         Profile:
                             id: profile
@@ -203,24 +208,20 @@ ScreenManager:
                             on_release:
                                 store.ids.content.clear_widgets()
 
-
                         OneLineIconListItem:
                             text: 'Reservation Status'
                             on_release:
                                 store.ids.content.clear_widgets()
-
 
                         OneLineIconListItem:
                             text: 'Settings'
                             on_release:
                                 store.ids.content.clear_widgets()
 
-
                         OneLineIconListItem:
                             text: 'About Us'
                             on_release:
                                 store.ids.content.clear_widgets()
-
 
                         OneLineIconListItem:
                             text: 'Logout'
@@ -238,15 +239,12 @@ ScreenManager:
             pos: self.pos
             size: self.size
 
-
-#
 <Store>
     name: 'store'
 
-    bgcolor: 0/255, 139/255, 139/255, 1
     canvas:
         Color:
-            rgba: self.bgcolor
+            rgba: app.colors(0)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -269,12 +267,13 @@ ScreenManager:
 
 
 
+
 <Card>
     orientation: "vertical"
     size_hint: 1, None
     canvas:
         Color:
-            rgba: 0/255,206/255,209/255, 1
+            rgba: app.colors(1)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -300,7 +299,8 @@ ScreenManager:
 <ProductCard>
     orientation: "vertical"
     size_hint: 1, None
-
+    on_release:
+        app.show_screen('product_details')
 
     MDBoxLayout:
         Image:
@@ -334,3 +334,47 @@ ScreenManager:
                 cols: 1
                 padding: '8dp'
                 spacing: '6dp'
+<DetailCard>
+    orientation: "vertical"
+    size_hint: 1, None
+    MDBoxLayout:
+        cols:2
+        orientation: 'horizontal'
+
+        Image:
+            source: root.image
+            size_hint: 1, None
+        MDBoxLayout:
+            cols: 1
+            orientation: 'vertical'
+            MDLabel:
+                text: root.name
+            OneLineAvatarIconListItem:
+                text: '1'
+                IconLeftWidget:
+                    icon: 'plus'
+                IconRightWidget:
+                    icon: 'minus'
+
+
+
+<ProductDetails>
+    name: 'product_details'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+
+            MDGridLayout:
+                id: content
+                adaptive_height: True
+                cols: 1
+                padding: '8dp'
+                spacing: '6dp'
+

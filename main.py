@@ -7,7 +7,7 @@ from kivymd.utils import asynckivy
 from kivy.lang.builder import Builder
 from kivymd.uix.dialog import MDDialog
 from kivy.uix.modalview import ModalView
-from time import time, asctime, localtime
+from time import time, asctime, localtime, sleep
 from kivy.core.window import Window
 from kivymd.uix.button import MDIconButton, MDFlatButton
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -74,7 +74,7 @@ class RegisterUser(Screen):
             insert_query = 'INSERT INTO users (login_cred, password) VALUES (?,?)'
             cursor.execute(insert_query, (self.usr_name.text, self.usr_pass1.text,))
             conn.commit()
-            cursor.close()
+            conn.close()
 
             conn = conn_db(f'./assets/data/{self.usr_name.text}.db')
             cursor = conn.cursor()
@@ -82,7 +82,7 @@ class RegisterUser(Screen):
             insert_query = 'INSERT INTO users (login_cred, password) VALUES (?,?)'
             cursor.execute(insert_query, (self.usr_name.text, self.usr_pass1.text,))
             conn.commit()
-            cursor.close()
+            conn.close()
 
             self.reset_field()
             # manage.current = 'login'
@@ -152,7 +152,6 @@ class Store(Screen):
                 self.x, self.y = 0, 0
             self.on_enter()
             self.ids.refresh_layout.refresh_done()
-            self.tick = 0
 
         Clock.schedule_once(refresh_callback, 1)
 
@@ -169,7 +168,7 @@ class Store(Screen):
             reset_data.append(row)
         # data_items = reset_data
 
-        cursor.close()
+        conn.close()
 
         return reset_data  # data_items
 
@@ -180,7 +179,7 @@ class Store(Screen):
         self.ids.content.clear_widgets()
         print(store_index)
         # print(instance.index)
-        
+
 
 class Cart(Screen):
     pass
@@ -243,7 +242,6 @@ class Products(Screen):
                 self.x, self.y = 0, 0
             self.on_enter()
             self.ids.refresh_layout.refresh_done()
-            self.tick = 0
 
         Clock.schedule_once(refresh_callback, 1)
 
@@ -260,26 +258,65 @@ class Products(Screen):
             reset_data.append(row)
         data_items = reset_data
 
-        cursor.close()
+        conn.close()
 
         return data_items
 
     def on_press(self, instance):
         global product_index
         product_index = instance.index
-        #self.ids.contents.clear_widgets()
+        self.ids.content.clear_widgets()
         # self.ids.contents.clear_widgets()
-        # print(instance.index)
+        print(instance.index)
+
+class DetailCard(MDCard):
+    image = StringProperty('')
+    name = StringProperty('')
+    price = NumericProperty(0)
+    description = StringProperty('')
+    category = StringProperty('')
+    brand = StringProperty('')
 
 
 class ProductDetails(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(ProductDetails, self).__init__(**kwargs)
+
+    def on_enter(self):
+        data_items = []
+        conn = conn_db(f'./assets/data/pcerve_data.db')
+        cursor = conn.cursor()
+        select = f"SELECT * FROM store_{store_index} where id = ?"
+        print(product_index)
+        cursor.execute(select, str(product_index),)
+        rows = cursor.fetchone()
+        print(rows)
+        conn.close()
+
+        for row in rows:
+            data_items.append(row)
+
+        async def on_enter():
+            await asynckivy.sleep(0)
+            details = DetailCard(image=f'./assets/{store_index}/{data_items[0]}.jpg', name=data_items[1])
+            self.ids.content.add_widget(details)
+
+        asynckivy.start(on_enter())
 
 
 class MyApp(MDApp):
     def __init__(self, **kwargs):
         self.title = 'PCerve'
         super().__init__(**kwargs)
+
+    def colors(self, color_code):
+        if color_code == 0:
+            color_rgba = 0/255, 139/255, 139/255, 1
+        elif color_code == 1:
+            color_rgba = 0 / 255, 206 / 255, 209 / 255, 1
+        elif color_code == 2:
+            color_rgba = 18/255, 110/255, 110/255, 1
+        return color_rgba
 
     def build(self):
         kv_run = Builder.load_file("./layout.kv")
