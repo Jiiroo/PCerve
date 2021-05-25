@@ -61,6 +61,9 @@ class Login(Screen):
         pass
         # manage.current = 'register'
 
+    def on_leave(self):
+        pass
+
 class RegisterUser(Screen):
     usr_name = ObjectProperty(None)
     usr_pass1 = ObjectProperty(None)
@@ -105,6 +108,8 @@ class RegisterUser(Screen):
         # manage.current = 'store'
         # print('Logged in')
 
+    def on_leave(self):
+        pass
 
 class PersonalInfo(Screen):
     pass
@@ -177,9 +182,11 @@ class Store(Screen):
         store_index = instance.index
         # manage.current = 'products'
         self.ids.content.clear_widgets()
-        print(store_index)
+         
         # print(instance.index)
 
+    def on_leave(self, *args):
+        self.ids.content.clear_widgets()
 
 class Cart(Screen):
     pass
@@ -205,29 +212,38 @@ def conn_db(filename):
         # print(e)
     return conn
 
-class ProductCard(MDCard):
-    index = NumericProperty()
-    image = StringProperty()
+
+class TypesCard(MDCard):
     name = StringProperty()
 
-
-class Products(Screen):
+class ProductTypes(Screen):
     def __init__(self, **kwargs):
-        super(Products, self).__init__(**kwargs)
+        super(ProductTypes, self).__init__(**kwargs)
 
     def on_enter(self, *args):
-        # Icon for list of stores
-        data_items = self.product_direct()
+        data_items = []
+        conn = conn_db(f'./assets/data/pcerve_data.db')
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT category FROM store_{store_index}")
+        rows = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        print(rows)
+        for row in rows:
+            if row not in data_items:
+                data_items.append(row)
 
         async def on_enter():
+
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = ProductCard(index=info[0], image=f'./assets/{store_index}/{info[0]}.jpg',
-                                            name=f'{info[1]}',
-                                            on_release=self.on_press)
+                store_widgets = TypesCard(name=f'{info[0]}', on_release=self.on_press)
                 self.ids.content.add_widget(store_widgets)
+            # self.dialog.dismiss()
 
         asynckivy.start(on_enter())
+        # self.dialog.dismiss()
 
     def refresh_callback(self, *args):
         '''A method that updates the state of your application
@@ -245,40 +261,94 @@ class Products(Screen):
 
         Clock.schedule_once(refresh_callback, 1)
 
-    def product_direct(self):
-        reset_data = []
+    def on_press(self, instance):
+        global product_type
+        product_type = str(instance.name)
+        print(product_type)
+
+    def on_leave(self, *args):
+        self.ids.content.clear_widgets()
+
+class ProductCard(MDCard):
+    index = NumericProperty()
+    image = StringProperty()
+    name = StringProperty()
+
+class Products(Screen):
+    dialog = None
+
+    def __init__(self, **kwargs):
+        super(Products, self).__init__(**kwargs)
+
+    def on_enter(self, *args):
+        # Icon for list of stores
         data_items = []
         conn = conn_db(f'./assets/data/pcerve_data.db')
         cursor = conn.cursor()
-        cursor.execute(f"SELECT * FROM store_{store_index}")
+        print(product_type)
+        cursor.execute(f'SELECT * FROM store_{store_index} WHERE category = "{product_type}"')
         # cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM products")
         rows = cursor.fetchall()
 
         for row in rows:
-            reset_data.append(row)
-        data_items = reset_data
+            data_items.append(row)
 
         conn.close()
 
-        return data_items
+        # if not self.dialog:
+        #     self.dialog = Loading()
+        # self.dialog.open()
+
+        async def on_enter():
+
+            for info in data_items:
+                await asynckivy.sleep(0)
+                store_widgets = ProductCard(index=info[0], image=f'./assets/{store_index}/{info[0]}.jpg',
+                                            name=f'{info[1]}',
+                                            on_release=self.on_press)
+                self.ids.content.add_widget(store_widgets)
+            # self.dialog.dismiss()
+
+        asynckivy.start(on_enter())
+        # self.dialog.dismiss()
+
+    def refresh_callback(self, *args):
+        '''A method that updates the state of your application
+        while the spinner remains on the screen.'''
+
+        def refresh_callback(interval):
+            self.ids.content.clear_widgets()
+
+            if self.x == 0:
+                self.x, self.y = 0, 0
+            else:
+                self.x, self.y = 0, 0
+            self.on_enter()
+            self.ids.refresh_layout.refresh_done()
+
+        Clock.schedule_once(refresh_callback, 1)
 
     def on_press(self, instance):
         global product_index
         product_index = instance.index
-        self.ids.content.clear_widgets()
+        print(product_index)
         # self.ids.contents.clear_widgets()
-        print(instance.index)
+
+    def on_leave(self, *args):
+        self.ids.content.clear_widgets()
+
 
 class DetailCard(MDCard):
     image = StringProperty('')
     name = StringProperty('')
-    price = NumericProperty(0)
+    price = StringProperty('')
     description = StringProperty('')
-    category = StringProperty('')
     brand = StringProperty('')
-
+    count = NumericProperty(0)
+    stocks = NumericProperty(0)
 
 class ProductDetails(Screen):
+
     def __init__(self, **kwargs):
         super(ProductDetails, self).__init__(**kwargs)
 
@@ -286,11 +356,9 @@ class ProductDetails(Screen):
         data_items = []
         conn = conn_db(f'./assets/data/pcerve_data.db')
         cursor = conn.cursor()
-        select = f"SELECT * FROM store_{store_index} where id = ?"
-        print(product_index)
-        cursor.execute(select, str(product_index),)
+        cursor.execute(f"SELECT * FROM store_{store_index} where id = {product_index}")
         rows = cursor.fetchone()
-        print(rows)
+        cursor.close()
         conn.close()
 
         for row in rows:
@@ -298,10 +366,17 @@ class ProductDetails(Screen):
 
         async def on_enter():
             await asynckivy.sleep(0)
-            details = DetailCard(image=f'./assets/{store_index}/{data_items[0]}.jpg', name=data_items[1])
+            details = DetailCard(image=f'./assets/{store_index}/{data_items[0]}.jpg', name=data_items[1],
+                                 description=data_items[3], brand=data_items[5], price=data_items[2])
             self.ids.content.add_widget(details)
 
         asynckivy.start(on_enter())
+
+        # self.image = f'./assets/{store_index}/{data_items[0]}.jpg'
+        # self.name = data_items[1]
+
+    def on_pre_leave(self, *args):
+        self.ids.content.clear_widgets()
 
 
 class MyApp(MDApp):
@@ -328,6 +403,7 @@ class MyApp(MDApp):
         return True
 
 
+product_type = None
 log_usr = None
 store_index = None
 product_index = None

@@ -166,13 +166,17 @@ ScreenManager:
                             id: store
                             name: 'store'
 
+                        ProductTypes:
+                            id: product_type
+                            name: 'product_type'
+
                         Products:
                             id: products
                             name: 'products'
 
                         ProductDetails:
-                            id: product_details
-                            name: 'product_details'
+                            id: details
+                            name: 'details'
 
                         Profile:
                             id: profile
@@ -194,39 +198,39 @@ ScreenManager:
                             on_release:
                                 app.show_screen('store')
                                 nav_drawer.set_state('close')
-                                products.ids.content.clear_widgets()
+#                                products.ids.content.clear_widgets()
 
                         OneLineIconListItem:
                             text: 'Profile'
                             on_release:
                                 app.show_screen('profile')
                                 nav_drawer.set_state('close')
-                                store.ids.content.clear_widgets()
+#                                store.ids.content.clear_widgets()
 
                         OneLineIconListItem:
                             text: 'Reservation Cart'
                             on_release:
-                                store.ids.content.clear_widgets()
+#                                store.ids.content.clear_widgets()
 
                         OneLineIconListItem:
                             text: 'Reservation Status'
                             on_release:
-                                store.ids.content.clear_widgets()
+#                                store.ids.content.clear_widgets()
 
                         OneLineIconListItem:
                             text: 'Settings'
                             on_release:
-                                store.ids.content.clear_widgets()
+#                                store.ids.content.clear_widgets()
 
                         OneLineIconListItem:
                             text: 'About Us'
                             on_release:
-                                store.ids.content.clear_widgets()
+#                                store.ids.content.clear_widgets()
 
                         OneLineIconListItem:
                             text: 'Logout'
                             on_release:
-                                store.ids.content.clear_widgets()
+#                                store.ids.content.clear_widgets()
 
 <Profile>
     name: 'profile'
@@ -265,9 +269,6 @@ ScreenManager:
                 padding: '8dp'
                 spacing: '6dp'
 
-
-
-
 <Card>
     orientation: "vertical"
     size_hint: 1, None
@@ -278,7 +279,7 @@ ScreenManager:
             pos: self.pos
             size: self.size
     on_release:
-        app.show_screen('products')
+        app.show_screen('product_type')
 
     MDBoxLayout:
         Image:
@@ -296,11 +297,65 @@ ScreenManager:
                 halign: 'center'
                 text_color: 25/255, 0, 0, 1
 
+<TypesCard>
+    orientation: "vertical"
+    size_hint: 1, None
+    canvas:
+        Color:
+            rgba: app.colors(1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    on_release:
+        app.show_screen('products')
+
+    MDBoxLayout:
+        cols: 1
+        orientation: "vertical"
+        size_hint: 1, 1
+        MDLabel:
+            text: root.name
+            font_style: "H6"
+            theme_text_color: 'Custom'
+            halign: 'center'
+            text_color: 25/255, 0, 0, 1
+
+<ProductTypes>
+    name: 'product_type'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDScrollViewRefreshLayout:
+            id: refresh_layout
+            refresh_callback: root.refresh_callback
+            root_layout: root
+
+            MDGridLayout:
+                id: content
+                adaptive_height: True
+                cols: 1
+                padding: '8dp'
+                spacing: '6dp'
+
 <ProductCard>
     orientation: "vertical"
     size_hint: 1, None
+    canvas:
+        Color:
+            rgba: app.colors(1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
     on_release:
-        app.show_screen('product_details')
+        app.show_screen('details')
 
     MDBoxLayout:
         Image:
@@ -320,6 +375,13 @@ ScreenManager:
 
 <Products>
     name: 'products'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     BoxLayout:
         orientation: 'vertical'
 
@@ -334,32 +396,12 @@ ScreenManager:
                 cols: 1
                 padding: '8dp'
                 spacing: '6dp'
+
 <DetailCard>
     orientation: "vertical"
-    size_hint: 1, None
-    MDBoxLayout:
-        cols:2
-        orientation: 'horizontal'
+    size_hint: 1, 100
+    padding: '10dp'
 
-        Image:
-            source: root.image
-            size_hint: 1, None
-        MDBoxLayout:
-            cols: 1
-            orientation: 'vertical'
-            MDLabel:
-                text: root.name
-            OneLineAvatarIconListItem:
-                text: '1'
-                IconLeftWidget:
-                    icon: 'plus'
-                IconRightWidget:
-                    icon: 'minus'
-
-
-
-<ProductDetails>
-    name: 'product_details'
     canvas:
         Color:
             rgba: app.colors(0)
@@ -367,14 +409,108 @@ ScreenManager:
             pos: self.pos
             size: self.size
 
-    BoxLayout:
-        orientation: 'vertical'
-        ScrollView:
 
-            MDGridLayout:
-                id: content
-                adaptive_height: True
-                cols: 1
-                padding: '8dp'
-                spacing: '6dp'
+    MDBoxLayout:
+        cols: 2
+        orientation: 'horizontal'
+        size_hint_y: .7
+
+        MDBoxLayout:
+            cols: 1
+            orientation: 'vertical'
+            size_hint: 1, 1
+            Image:
+                source: root.image
+
+        MDBoxLayout:
+            cols:1
+            orientation: 'vertical'
+
+            MDLabel:
+                padding_x: '8dp'
+                size_hint_y: .6
+                text: root.name
+            MDLabel:
+                padding_x: '8dp'
+                size_hint_y: .2
+                text: f'Php {root.price}'
+
+            OneLineAvatarIconListItem:
+                size_hint_y: .3
+                text: str(root.count)
+
+                IconLeftWidget:
+                    icon: 'plus'
+                    on_press:
+                        root.count += 1
+                IconRightWidget:
+                    icon: 'minus'
+                    on_press:
+                        if root.count > 0: root.count -= 1
+    MDSeparator:
+        height: "1dp"
+    MDBoxLayout:
+
+        size_hint_y: .2
+        cols: 2
+        orientation: 'horizontal'
+        MDLabel:
+            text: 'Brand: ' + root.brand
+            font_style: 'Subtitle1'
+        MDLabel:
+            font_style: 'Subtitle1'
+            text: 'Stock(s): ' + str(root.stocks)
+
+    MDSeparator:
+        height: "1dp"
+    MDLabel:
+        size_hint_y: .1
+        text: 'Descriptions:'
+        font_style: 'Subtitle1'
+    ScrollView:
+
+        MDLabel:
+            padding: (20,10)
+            size_hint: 1, None
+            size: self.texture_size
+            text: root.description
+
+    MDBoxLayout:
+        cols: 4
+        orientation: 'horizontal'
+        size_hint: 1, .2
+        MDBoxLayout:
+        MDRaisedButton:
+            text:'Back'
+            markup: True
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            md_bg_color: app.colors(2)
+            on_release:
+                app.show_screen('products')
+        MDBoxLayout:
+            size_hint_x: .1
+        MDRaisedButton:
+            text:'Reserve'
+            markup: True
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            md_bg_color: app.colors(2)
+        MDBoxLayout:
+
+<ProductDetails>
+    name: 'details'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    ScrollView:
+        MDGridLayout:
+            id: content
+            adaptive_height:
+            cols: 1
+            padding: '8dp'
+            spacing: '6dp'
 
