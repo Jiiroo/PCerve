@@ -3,6 +3,95 @@ ScreenManager:
     NavLayoutScreen:
         name: 'nav_screen'
 
+<NavLayoutScreen@Screen>:
+    MDNavigationLayout
+        id: navigation_layout
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    MDToolbar:
+                        title: 'PCerve'
+                        elevation: 10
+                        md_bg_color: app.colors(2)
+                        left_action_items: [['menu', lambda x: nav_drawer.set_state('open') ]]
+                    ScreenManager:
+                        id: manage
+
+                        Store:
+                            id: store
+                            name: 'store'
+
+                        ProductTypes:
+                            id: product_type
+                            name: 'product_type'
+
+                        Products:
+                            id: products
+                            name: 'products'
+
+                        ProductDetails:
+                            id: details
+                            name: 'details'
+                        ReservationCart:
+                            id: reservation_cart
+                            name: 'reservation_cart'
+                        Profile:
+                            id: profile
+                            name: 'profile'
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: "8dp"
+                spacing: '8dp'
+
+                ScrollView:
+                    MDList:
+
+                        OneLineIconListItem:
+                            text: 'Stores'
+                            on_release:
+                                app.show_screen('store')
+                                nav_drawer.set_state('close')
+#                                products.ids.content.clear_widgets()
+
+                        OneLineIconListItem:
+                            text: 'Profile'
+                            on_release:
+                                app.show_screen('profile')
+                                nav_drawer.set_state('close')
+#                                store.ids.content.clear_widgets()
+
+                        OneLineIconListItem:
+                            text: 'Reservation Cart'
+                            on_release:
+                                app.show_screen('reservation_cart')
+                                nav_drawer.set_state('close')
+
+                        OneLineIconListItem:
+                            text: 'Reservation Status'
+                            on_release:
+#                                store.ids.content.clear_widgets()
+
+                        OneLineIconListItem:
+                            text: 'Settings'
+                            on_release:
+#                                store.ids.content.clear_widgets()
+
+                        OneLineIconListItem:
+                            text: 'About Us'
+                            on_release:
+#                                store.ids.content.clear_widgets()
+
+                        OneLineIconListItem:
+                            text: 'Logout'
+                            on_release:
+#                                store.ids.content.clear_widgets()
+
 <Login>
     name: 'login'
     usr_name: usr_name
@@ -69,7 +158,7 @@ ScreenManager:
             size_hint: .2, .05
             pos_hint: {'center_x': .90, 'center_y': .97}
             on_release: app.show_screen('store')
-     
+
 <RegisterUser>
     name: 'register'
     usr_name: usr_name
@@ -143,94 +232,6 @@ ScreenManager:
             size_hint: .2, .05
             pos_hint: {'center_x': .90, 'center_y': .97}
             on_release: app.show_screen('store')
-
-<ForgotPassword>
-
-<NavLayoutScreen@Screen>:
-    MDNavigationLayout
-        id: navigation_layout
-        ScreenManager:
-            Screen:
-                BoxLayout:
-                    orientation: 'vertical'
-
-                    MDToolbar:
-                        title: 'PCerve'
-                        elevation: 10
-                        md_bg_color: app.colors(2)
-                        left_action_items: [['menu', lambda x: nav_drawer.set_state('open') ]]
-                    ScreenManager:
-                        id: manage
-
-                        Store:
-                            id: store
-                            name: 'store'
-
-                        ProductTypes:
-                            id: product_type
-                            name: 'product_type'
-
-                        Products:
-                            id: products
-                            name: 'products'
-
-                        ProductDetails:
-                            id: details
-                            name: 'details'
-
-                        Profile:
-                            id: profile
-                            name: 'profile'
-
-        MDNavigationDrawer:
-            id: nav_drawer
-
-            BoxLayout:
-                orientation: 'vertical'
-                padding: "8dp"
-                spacing: '8dp'
-
-                ScrollView:
-                    MDList:
-
-                        OneLineIconListItem:
-                            text: 'Stores'
-                            on_release:
-                                app.show_screen('store')
-                                nav_drawer.set_state('close')
-#                                products.ids.content.clear_widgets()
-
-                        OneLineIconListItem:
-                            text: 'Profile'
-                            on_release:
-                                app.show_screen('profile')
-                                nav_drawer.set_state('close')
-#                                store.ids.content.clear_widgets()
-
-                        OneLineIconListItem:
-                            text: 'Reservation Cart'
-                            on_release:
-#                                store.ids.content.clear_widgets()
-
-                        OneLineIconListItem:
-                            text: 'Reservation Status'
-                            on_release:
-#                                store.ids.content.clear_widgets()
-
-                        OneLineIconListItem:
-                            text: 'Settings'
-                            on_release:
-#                                store.ids.content.clear_widgets()
-
-                        OneLineIconListItem:
-                            text: 'About Us'
-                            on_release:
-#                                store.ids.content.clear_widgets()
-
-                        OneLineIconListItem:
-                            text: 'Logout'
-                            on_release:
-#                                store.ids.content.clear_widgets()
 
 <Profile>
     name: 'profile'
@@ -433,7 +434,7 @@ ScreenManager:
             MDLabel:
                 padding_x: '8dp'
                 size_hint_y: .2
-                text: f'Php {root.price}'
+                text: 'Php ' + str(root.price)
 
             OneLineAvatarIconListItem:
                 size_hint_y: .3
@@ -442,7 +443,7 @@ ScreenManager:
                 IconLeftWidget:
                     icon: 'plus'
                     on_press:
-                        root.count += 1
+                        if root.count != root.stocks: root.count += 1
                 IconRightWidget:
                     icon: 'minus'
                     on_press:
@@ -491,11 +492,12 @@ ScreenManager:
         MDBoxLayout:
             size_hint_x: .1
         MDRaisedButton:
-            text:'Reserve'
+            text:'Add to Reservation'
             markup: True
             theme_text_color: "Custom"
             text_color: 1, 1, 1, 1
             md_bg_color: app.colors(2)
+            on_release: root.reserve()
         MDBoxLayout:
 
 <ProductDetails>
@@ -513,4 +515,80 @@ ScreenManager:
             cols: 1
             padding: '8dp'
             spacing: '6dp'
+
+<Reservation>
+    id: reserve
+    size_hint: .6, .1
+    auto_dismiss: True
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    MDLabel:
+        text: 'Added to Reservation Cart'
+        halign: 'center'
+
+<ReserveCard>
+    orientation: "vertical"
+    size_hint: 1, None
+    canvas:
+        Color:
+            rgba: app.colors(1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    on_release:
+        app.show_screen('details')
+
+    MDBoxLayout:
+        Image:
+            source: root.image
+            size_hint: .5, 1
+
+        MDBoxLayout:
+            cols: 1
+            orientation: "vertical"
+            size_hint: 1, 1
+            MDLabel:
+                text: root.name
+                font_style: "Caption"
+                theme_text_color: 'Custom'
+                halign: 'center'
+                text_color: 25/255, 0, 0, 1
+
+<ReservationCart>
+    name: 'reservation_cart'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+        cols: 1
+        orientation: 'vertical'
+
+        MDLabel:
+            text: 'Your Reservation'
+            font_style: 'H6'
+            size_hint_y: .1
+            padding: (10,0)
+
+        MDScrollViewRefreshLayout:
+            id: refresh_layout
+            refresh_callback: root.refresh_callback
+            root_layout: root
+
+            MDGridLayout:
+                id: content
+                adaptive_height: True
+                cols: 1
+                padding: '8dp'
+                spacing: '6dp'
+
+
+
 

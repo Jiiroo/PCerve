@@ -1,0 +1,78 @@
+<ReserveCard>
+    orientation: "vertical"
+    size_hint: 1, None
+    canvas:
+        Color:
+            rgba: app.colors(1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+        cols: 2
+        orientation: 'horizontal'
+        size_hint_y: .7
+
+        MDBoxLayout:
+            cols: 1
+            orientation: 'vertical'
+            size_hint: 1, 1
+            Image:
+                source: root.image
+
+        MDBoxLayout:
+            cols:1
+            orientation: 'vertical'
+
+            MDLabel:
+                padding_x: '8dp'
+                size_hint_y: .6
+                text: root.name
+            MDLabel:
+                padding_x: '8dp'
+                size_hint_y: .2
+                text: 'Php ' + str(root.price)
+
+            OneLineAvatarIconListItem:
+                size_hint_y: .3
+                text: str(root.count)
+
+                IconLeftWidget:
+                    icon: 'plus'
+                    on_press:
+                        if root.count != root.stocks: root.count += 1
+                IconRightWidget:
+                    icon: 'minus'
+                    on_press:
+                        if root.count > 0: root.count -= 1
+
+<ReservationCart>
+    name: 'reservation_cart'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+        cols: 1
+        orientation: 'vertical'
+
+        MDLabel:
+            text: 'Your Reservation'
+            font_style: 'H6'
+            size_hint_y: .1
+            padding: (10,0)
+
+        MDScrollViewRefreshLayout:
+            id: refresh_layout
+            refresh_callback: root.refresh_callback
+            root_layout: root
+
+            MDGridLayout:
+                id: content
+                adaptive_height: True
+                cols: 1
+                padding: '8dp'
+                spacing: '6dp'

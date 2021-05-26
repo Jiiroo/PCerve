@@ -1,0 +1,131 @@
+<DetailCard>
+    orientation: "vertical"
+    size_hint: 1, 100
+    padding: '10dp'
+
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+    MDBoxLayout:
+        cols: 2
+        orientation: 'horizontal'
+        size_hint_y: .7
+
+        MDBoxLayout:
+            cols: 1
+            orientation: 'vertical'
+            size_hint: 1, 1
+            Image:
+                source: root.image
+
+        MDBoxLayout:
+            cols:1
+            orientation: 'vertical'
+
+            MDLabel:
+                padding_x: '8dp'
+                size_hint_y: .6
+                text: root.name
+            MDLabel:
+                padding_x: '8dp'
+                size_hint_y: .2
+                text: 'Php ' + str(root.price)
+
+            OneLineAvatarIconListItem:
+                size_hint_y: .3
+                text: str(root.count)
+
+                IconLeftWidget:
+                    icon: 'plus'
+                    on_press:
+                        if root.count != root.stocks: root.count += 1
+                IconRightWidget:
+                    icon: 'minus'
+                    on_press:
+                        if root.count > 0: root.count -= 1
+    MDSeparator:
+        height: "1dp"
+    MDBoxLayout:
+
+        size_hint_y: .2
+        cols: 2
+        orientation: 'horizontal'
+        MDLabel:
+            text: 'Brand: ' + root.brand
+            font_style: 'Subtitle1'
+        MDLabel:
+            font_style: 'Subtitle1'
+            text: 'Stock(s): ' + str(root.stocks)
+
+    MDSeparator:
+        height: "1dp"
+    MDLabel:
+        size_hint_y: .1
+        text: 'Descriptions:'
+        font_style: 'Subtitle1'
+    ScrollView:
+
+        MDLabel:
+            padding: (20,10)
+            size_hint: 1, None
+            size: self.texture_size
+            text: root.description
+
+    MDBoxLayout:
+        cols: 4
+        orientation: 'horizontal'
+        size_hint: 1, .2
+        MDBoxLayout:
+        MDRaisedButton:
+            text:'Back'
+            markup: True
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            md_bg_color: app.colors(2)
+            on_release:
+                app.show_screen('products')
+        MDBoxLayout:
+            size_hint_x: .1
+        MDRaisedButton:
+            text:'Add to Reservation'
+            markup: True
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            md_bg_color: app.colors(2)
+            on_release: root.reserve()
+        MDBoxLayout:
+
+<ProductDetails>
+    name: 'details'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    ScrollView:
+        MDGridLayout:
+            id: content
+            adaptive_height:
+            cols: 1
+            padding: '8dp'
+            spacing: '6dp'
+
+<Reservation>
+    id: reserve
+    size_hint: .6, .1
+    auto_dismiss: True
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    MDLabel:
+        text: 'Added to Reservation Cart'
+        halign: 'center'
