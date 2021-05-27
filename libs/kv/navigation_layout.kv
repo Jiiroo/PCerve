@@ -1,5 +1,6 @@
-<NavLayoutScreen@Screen>:
+<NavLayoutScreen>:
     MDNavigationLayout
+
         id: navigation_layout
         ScreenManager:
             Screen:
@@ -32,34 +33,41 @@
                         ReservationCart:
                             id: reservation_cart
                             name: 'reservation_cart'
+
                         Profile:
                             id: profile
                             name: 'profile'
 
+
         MDNavigationDrawer:
+
             id: nav_drawer
+
 
             BoxLayout:
                 orientation: 'vertical'
                 padding: "8dp"
                 spacing: '8dp'
+                AnchorLayout:
+                    anchor_x: "center"
+                    size_hint_y: .1
+
+                    Image:
+                        id: avatar
+                        source: "./LOGO.png"
 
                 ScrollView:
                     MDList:
+                        OneLineIconListItem:
+                            text: 'Profile'
+                            on_release:
+                                nav_drawer.set_state('close')
 
                         OneLineIconListItem:
                             text: 'Stores'
                             on_release:
                                 app.show_screen('store')
                                 nav_drawer.set_state('close')
-#                                products.ids.content.clear_widgets()
-
-                        OneLineIconListItem:
-                            text: 'Profile'
-                            on_release:
-                                app.show_screen('profile')
-                                nav_drawer.set_state('close')
-#                                store.ids.content.clear_widgets()
 
                         OneLineIconListItem:
                             text: 'Reservation Cart'
@@ -70,19 +78,21 @@
                         OneLineIconListItem:
                             text: 'Reservation Status'
                             on_release:
-#                                store.ids.content.clear_widgets()
+#
 
                         OneLineIconListItem:
                             text: 'Settings'
                             on_release:
-#                                store.ids.content.clear_widgets()
+#
 
                         OneLineIconListItem:
                             text: 'About Us'
                             on_release:
-#                                store.ids.content.clear_widgets()
+#
 
                         OneLineIconListItem:
                             text: 'Logout'
                             on_release:
-#                                store.ids.content.clear_widgets()
+                                root.logout()
+                                app.root.current = 'login'
+                                nav_drawer.set_state('close')

@@ -1,19 +1,17 @@
 import kivy
 import sqlite3
+import data_base
 from kivymd.app import MDApp
 from kivy.clock import Clock
 from kivymd.utils import asynckivy
 from kivy.lang.builder import Builder
 from kivy.core.window import Window
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
-from libs.baseclass import store, type, products, product_details, reservation_cart
-
-class Manage(ScreenManager):
-    pass
-
-
-manage = Manage()
+from libs.baseclass import store, type, products, product_details, reservation_cart, login, register, profile, navigation_layout
+import os
+import sys
 
 
 class MyApp(MDApp):
@@ -26,6 +24,25 @@ class MyApp(MDApp):
         self.title = 'PCerve'
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.on_key)
+
+    def on_start(self):
+
+        if self.get_account() is not None and self.get_account() != []:
+            print(self.get_account())
+            self.root.current = 'nav_screen'
+        else:
+            self.root.current = 'login'
+
+    def get_account(self):
+        try:
+            conn = data_base.conn_db('./assets/data/pcerve_data.db')
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM accounts WHERE status = "active"')
+            data = cursor.fetchone()
+        except (AttributeError, sqlite3.OperationalError):
+            data = None
+
+        return data
 
     def colors(self, color_code):
         if color_code == 0:
@@ -41,7 +58,6 @@ class MyApp(MDApp):
         return kv_run
 
     def show_screen(self, name):
-        self.root.current = 'nav_screen'
         self.root.get_screen('nav_screen').ids.manage.current = name
         return True
 
