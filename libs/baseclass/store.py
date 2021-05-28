@@ -20,6 +20,7 @@ class Store(Screen):
         super(Store, self).__init__(**kwargs)
 
     def on_enter(self, *args):
+
         # Icon for list of stores
         data_items = self.store_direct()
 
@@ -69,10 +70,10 @@ class Store(Screen):
         get = MDApp.get_running_app()
         get.store_index = instance.index
         # manage.current = 'products'
-        self.ids.content.clear_widgets()
 
         # print(instance.index)
 
     def on_leave(self, *args):
+        print('Hi')
         self.ids.content.clear_widgets()
 

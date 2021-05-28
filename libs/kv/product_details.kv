@@ -2,6 +2,7 @@
     orientation: "vertical"
     size_hint: 1, 100
     padding: '10dp'
+    elevation: 0
 
     canvas:
         Color:
@@ -26,11 +27,11 @@
         MDBoxLayout:
             cols:1
             orientation: 'vertical'
-
-            MDLabel:
-                padding_x: '8dp'
-                size_hint_y: .6
-                text: root.name
+            ScrollView:
+                MDLabel:
+                    padding_x: '8dp'
+                    size_hint_y: .6
+                    text: root.name
             MDLabel:
                 padding_x: '8dp'
                 size_hint_y: .2
@@ -111,7 +112,6 @@
     ScrollView:
         MDGridLayout:
             id: content
-            adaptive_height:
             cols: 1
             padding: '8dp'
             spacing: '6dp'

@@ -20,6 +20,15 @@ class DetailCard(MDCard):
     stocks = NumericProperty(0)
 
     def reserve(self):
+        get = get = MDApp.get_running_app()
+        conn = data_base.conn_db('./assets/data/pcerve_data.db')
+        cursor = conn.cursor()
+        cursor.execute('SELECT id FROM accounts WHERE status = "active"')
+        id_usr = cursor.fetchone()
+        insert = 'INSERT INTO reservations (usr_id, store_id, product_id, count, products, price) VALUES (?,?,?,?,?,?)'
+        cursor.execute(insert, (id_usr[0], get.store_index, get.product_index, self.count, self.name, self.price))
+        conn.commit()
+        conn.close()
         Reservation().open()
 
 class ProductDetails(Screen):

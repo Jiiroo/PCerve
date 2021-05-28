@@ -28,9 +28,9 @@ class RegisterUser(Screen):
             conn.commit()
             conn.close()
 
-
             self.reset_field()
             # manage.current = 'login'
+            return True
         else:
             self.reset_field()
 

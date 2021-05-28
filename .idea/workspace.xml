@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9f227f6b-1e30-4851-b3c6-0818ab7afed0" name="Default Changelist" comment="">
+    <list default="true" id="9f227f6b-1e30-4851-b3c6-0818ab7afed0" name="Default Changelist" comment="Fixed screen layouts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/data/pcerve_data.db" beforeDir="false" afterPath="$PROJECT_DIR$/assets/data/pcerve_data.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layout.kv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/baseclass/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/baseclass/products.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/products.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/kv/login.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/login.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/kv/navigation_lay.kv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/kv/store.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/store.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.kv" beforeDir="false" afterPath="$PROJECT_DIR$/main.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/baseclass/product_details.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/product_details.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/baseclass/register.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/register.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/baseclass/reservation_cart.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/reservation_cart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/baseclass/store.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/store.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/kv/navigation_layout.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/navigation_layout.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/kv/product_details.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/product_details.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/kv/register.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/register.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/kv/reservation_cart.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/reservation_cart.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622047710229</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fixed screen layouts">
+      <created>1622121381204</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1622121381204</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -97,6 +105,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Change code layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change code layout" />
+    <MESSAGE value="Fixed screen layouts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed screen layouts" />
   </component>
 </project>

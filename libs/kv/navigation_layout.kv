@@ -94,5 +94,6 @@
                             text: 'Logout'
                             on_release:
                                 root.logout()
+                                app.show_screen('store')
                                 app.root.current = 'login'
                                 nav_drawer.set_state('close')

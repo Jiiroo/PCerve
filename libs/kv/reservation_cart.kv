@@ -1,6 +1,9 @@
 <ReserveCard>
     orientation: "vertical"
     size_hint: 1, None
+    size: '0', '200dp'
+    spacing: '10dp'
+    elevation: 0
     canvas:
         Color:
             rgba: app.colors(1)
@@ -11,40 +14,57 @@
     MDBoxLayout:
         cols: 2
         orientation: 'horizontal'
-        size_hint_y: .7
+        size_hint_y: .6
 
         MDBoxLayout:
             cols: 1
             orientation: 'vertical'
             size_hint: 1, 1
             Image:
-                source: root.image
+                size_hint: 1, 1
+                source: f'./assets/{root.store_id}/{root.product_id}.jpg'
 
         MDBoxLayout:
             cols:1
             orientation: 'vertical'
+            size_hint_y: 1
 
             MDLabel:
-                padding_x: '8dp'
-                size_hint_y: .6
+                padding_x: '10dp'
                 text: root.name
+                size_hint_y: .6
             MDLabel:
-                padding_x: '8dp'
-                size_hint_y: .2
+                padding_x: '10dp'
+                size_hint_y: .4
                 text: 'Php ' + str(root.price)
+    MDBoxLayout:
+        cols: 2
+        orientation: 'horizontal'
+        size_hint: 1, .2
 
+        AnchorLayout:
+            anchor_x: 'center'
+            size_hint_x: .5
+            MDIconButton:
+                icon: 'delete'
+
+        MDBoxLayout:
+            cols: 1
+            size_hint_x: .5
             OneLineAvatarIconListItem:
-                size_hint_y: .3
+
                 text: str(root.count)
 
                 IconLeftWidget:
                     icon: 'plus'
                     on_press:
                         if root.count != root.stocks: root.count += 1
+                        root.update()
                 IconRightWidget:
                     icon: 'minus'
                     on_press:
                         if root.count > 0: root.count -= 1
+                        root.update()
 
 <ReservationCart>
     name: 'reservation_cart'
@@ -76,3 +96,19 @@
                 cols: 1
                 padding: '8dp'
                 spacing: '6dp'
+        MDBoxLayout:
+            cols: 1
+            size_hint_y: .2
+            padding: '20dp'
+            MDBoxLayout:
+                cols: 2
+                orientation: 'horizontal'
+                MDLabel:
+                    text: 'Total:'
+                    halign: 'right'
+                    size_hint_y: .1
+
+                MDLabel:
+                    halign: 'right'
+                    text: root.total
+                    size_hint_y: .1
