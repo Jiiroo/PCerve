@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f227f6b-1e30-4851-b3c6-0818ab7afed0" name="Default Changelist" comment="Fixed screen layouts">
+    <list default="true" id="9f227f6b-1e30-4851-b3c6-0818ab7afed0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/libs/baseclass/reservation_stats.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/kv/reservation_stats.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PCerve.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PCerve.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/data/pcerve_data.db" beforeDir="false" afterPath="$PROJECT_DIR$/assets/data/pcerve_data.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/baseclass/product_details.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/product_details.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/baseclass/register.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/register.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/baseclass/reservation_cart.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/reservation_cart.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/baseclass/store.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/store.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/kv/navigation_layout.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/navigation_layout.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/kv/product_details.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/product_details.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/kv/register.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/register.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/kv/reservation_cart.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/reservation_cart.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +28,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1t4zQyZQtScbBE6Y3BMeGICAraV" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -97,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622121381204</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="-fixing reservation_cart.py and reservation_cart.kv">
+      <created>1622177223734</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1622177223734</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -106,6 +121,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Change code layout" />
     <MESSAGE value="Fixed screen layouts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed screen layouts" />
+    <MESSAGE value="-fixing reservation_cart.py and reservation_cart.kv" />
+    <option name="LAST_COMMIT_MESSAGE" value="-fixing reservation_cart.py and reservation_cart.kv" />
   </component>
 </project>

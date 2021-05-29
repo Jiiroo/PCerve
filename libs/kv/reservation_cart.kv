@@ -47,6 +47,7 @@
             size_hint_x: .5
             MDIconButton:
                 icon: 'delete'
+                on_release: root.delete_item()
 
         MDBoxLayout:
             cols: 1
@@ -96,19 +97,46 @@
                 cols: 1
                 padding: '8dp'
                 spacing: '6dp'
+        MDSeparator:
+            height: '3dp'
         MDBoxLayout:
             cols: 1
-            size_hint_y: .2
+            size_hint_y: .1
             padding: '20dp'
-            MDBoxLayout:
-                cols: 2
-                orientation: 'horizontal'
-                MDLabel:
-                    text: 'Total:'
-                    halign: 'right'
-                    size_hint_y: .1
+            AnchorLayout:
+                anchor_x: 'center'
+                MDRaisedButton:
+                    padding_x: '20dp'
+                    text:'Delete All'
+                    markup: True
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    md_bg_color: app.colors(2)
+                    on_release:
+                        root.delete_all()
+            AnchorLayout:
+                anchor_x: 'center'
+                MDRaisedButton:
+                    padding_x: '20dp'
+                    text:'Reserve Items'
+                    markup: True
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    md_bg_color: app.colors(2)
+                    on_release:
+                        root.date_pick()
 
-                MDLabel:
-                    halign: 'right'
-                    text: root.total
-                    size_hint_y: .1
+<DatePicking>
+
+#            MDBoxLayout:
+#                cols: 2
+#                orientation: 'horizontal'
+#                MDLabel:
+#                    text: 'Total:'
+#                    halign: 'right'
+#                    size_hint_y: .1
+#
+#                MDLabel:
+#                    halign: 'right'
+#                    text: root.total
+#                    size_hint_y: .1
