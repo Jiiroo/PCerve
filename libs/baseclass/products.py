@@ -29,15 +29,10 @@ class Products(Screen):
         cursor.execute(f'SELECT * FROM store_{self.get.store_index} WHERE category = "{self.get.product_type}"')
         # cursor.execute("SELECT *, ROW_NUMBER() OVER(ORDER BY id) AS NoId FROM products")
         rows = cursor.fetchall()
-        print(rows)
         for row in rows:
             data_items.append(row)
 
         conn.close()
-
-        # if not self.dialog:
-        #     self.dialog = Loading()
-        # self.dialog.open()
 
         async def on_enter():
 

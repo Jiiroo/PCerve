@@ -33,9 +33,9 @@ class Login(Screen):
                 self.reset_field()
                 return True
             else:
-                print('Wrong username or email or password')
+                pass
         else:
-            print('No account')
+            pass
 
         self.reset_field()
         conn.close()

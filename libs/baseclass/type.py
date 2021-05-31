@@ -26,7 +26,6 @@ class ProductTypes(Screen):
         cursor.close()
         conn.close()
 
-        print(rows)
         for row in rows:
             if row not in data_items:
                 data_items.append(row)
@@ -40,7 +39,6 @@ class ProductTypes(Screen):
             # self.dialog.dismiss()
 
         asynckivy.start(on_enter())
-        # self.dialog.dismiss()
 
     def refresh_callback(self, *args):
         '''A method that updates the state of your application

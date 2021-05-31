@@ -10,7 +10,7 @@ from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
-from libs.baseclass import store, type, products, product_details, reservation_cart, login, register, profile, \
+from libs.baseclass import store, type, products, product_details, reservation_cart, login, register, \
     navigation_layout, reservation_stats
 
 

@@ -31,7 +31,6 @@ class ReserveCard(MDCard):
     def delete_item(self):
         conn = data_base.conn_db('./assets/data/pcerve_data.db')
         cursor = conn.cursor()
-        print(self.index)
         cursor.execute(f'DELETE from reservations where id = {self.index}')
         conn.commit()
         conn.close()
@@ -50,6 +49,9 @@ class ReservationCart(Screen):
         cursor = conn.cursor()
         cursor.execute('SELECT id from accounts WHERE status = "active"')
         usr_id = cursor.fetchone()
+
+        cursor.execute('CREATE TABLE IF NOT EXISTS reservations(id integer unique primary key autoincrement, usr_id, '
+                       'store_id, product_id, count, products, price)')
 
         cursor.execute(f'SELECT * from reservations WHERE usr_id = {usr_id[0]}')
         rows = cursor.fetchall()
@@ -72,7 +74,6 @@ class ReservationCart(Screen):
                                             price=info[6], index=info[0], stocks=pick[0])
                 self.ids.content.add_widget(store_widgets)
             # self.dialog.dismiss()
-            print('{:,}'.format(price))
             self.total = '{:,}'.format(price)
             conn2.close()
         asynckivy.start(on_enter())
@@ -128,6 +129,7 @@ class ReservationCart(Screen):
             cursor.execute(insert_data, (row[1], row[2], row[3], row[4], row[5], row[6], value))
             conn.commit()
         conn.close()
+        self.delete_all()
         self.ids.content.clear_widgets()
 
     def on_cancel(self, instance, value):

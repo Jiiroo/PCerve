@@ -23,7 +23,7 @@ class StatsCard(MDCard):
     def cancel_item(self):
         conn = data_base.conn_db('./assets/data/pcerve_data.db')
         cursor = conn.cursor()
-        print(self.index)
+
         cursor.execute(f'DELETE from confirmed_reserve where id = {self.index}')
         conn.commit()
         conn.close()
@@ -61,7 +61,6 @@ class ReservationStatus(Screen):
                 await asynckivy.sleep(0)
                 cursor2.execute(f'SELECT stocks FROM store_{info[2]} where id = {info[3]}')
                 pick = cursor2.fetchone()
-                print(info[2])
                 price += (float(info[6].replace(',', '')) * info[4])
 
                 store_widgets = StatsCard(store_id=info[2], product_id=info[3],
@@ -69,8 +68,7 @@ class ReservationStatus(Screen):
                                           index=info[0], stocks=pick[0], date=info[7],)
 
                 self.ids.content.add_widget(store_widgets)
-            # self.dialog.dismiss()
-            print('{:,}'.format(price))
+
             self.total = '{:,}'.format(price)
             conn2.close()
 

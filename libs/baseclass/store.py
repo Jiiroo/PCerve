@@ -69,11 +69,7 @@ class Store(Screen):
     def on_press(self, instance):
         get = MDApp.get_running_app()
         get.store_index = instance.index
-        # manage.current = 'products'
-
-        # print(instance.index)
 
     def on_leave(self, *args):
-        print('Hi')
         self.ids.content.clear_widgets()
 
