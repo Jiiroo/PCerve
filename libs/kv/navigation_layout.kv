@@ -1,6 +1,5 @@
 <NavLayoutScreen>:
     MDNavigationLayout
-
         id: navigation_layout
         ScreenManager:
             Screen:
@@ -30,9 +29,14 @@
                         ProductDetails:
                             id: details
                             name: 'details'
+
                         ReservationCart:
                             id: reservation_cart
                             name: 'reservation_cart'
+
+                        ReservationStatus:
+                            id: reservation_stats
+                            name: 'reservation_stats'
 
                         Profile:
                             id: profile
@@ -59,11 +63,6 @@
                 ScrollView:
                     MDList:
                         OneLineIconListItem:
-                            text: 'Profile'
-                            on_release:
-                                nav_drawer.set_state('close')
-
-                        OneLineIconListItem:
                             text: 'Stores'
                             on_release:
                                 app.show_screen('store')
@@ -78,17 +77,16 @@
                         OneLineIconListItem:
                             text: 'Reservation Status'
                             on_release:
-#
+                                app.show_screen('reservation_stats')
+                                nav_drawer.set_state('close')
 
                         OneLineIconListItem:
                             text: 'Settings'
                             on_release:
-#
 
                         OneLineIconListItem:
                             text: 'About Us'
                             on_release:
-#
 
                         OneLineIconListItem:
                             text: 'Logout'

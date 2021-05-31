@@ -25,6 +25,8 @@ class DetailCard(MDCard):
         cursor = conn.cursor()
         cursor.execute('SELECT id FROM accounts WHERE status = "active"')
         id_usr = cursor.fetchone()
+        cursor.execute('CREATE TABLE IF NOT EXISTS reservations(id integer unique primary key autoincrement, usr_id, '
+                       'store_id, product_id, count, products, price)')
         insert = 'INSERT INTO reservations (usr_id, store_id, product_id, count, products, price) VALUES (?,?,?,?,?,?)'
         cursor.execute(insert, (id_usr[0], get.store_index, get.product_index, self.count, self.name, self.price))
         conn.commit()

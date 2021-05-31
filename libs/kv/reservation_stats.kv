@@ -1,0 +1,105 @@
+<StatsCard>
+    orientation: "vertical"
+    size_hint: 1, None
+    size: '0', '200dp'
+    spacing: '10dp'
+    elevation: 0
+    canvas:
+        Color:
+            rgba: app.colors(1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+        cols: 2
+        orientation: 'horizontal'
+        size_hint_y: .6
+
+        MDBoxLayout:
+            cols: 1
+            orientation: 'vertical'
+            size_hint: 1, 1
+            Image:
+                size_hint: 1, 1
+                source: f'./assets/{root.store_id}/{root.product_id}.jpg'
+
+        MDBoxLayout:
+            cols:1
+            orientation: 'vertical'
+            size_hint_y: 1
+
+            MDLabel:
+                padding_x: '10dp'
+                text: root.name
+                size_hint_y: .6
+            MDLabel:
+                padding_x: '10dp'
+                size_hint_y: .4
+                text: 'Php ' + str(root.price)
+    MDBoxLayout:
+        cols: 2
+        orientation: 'horizontal'
+        size_hint: 1, .2
+
+        AnchorLayout:
+            anchor_x: 'center'
+            size_hint_x: .5
+            MDIconButton:
+                icon: 'cancel'
+                on_release: root.cancel_item()
+
+        MDBoxLayout:
+            cols: 1
+            size_hint_x: .6
+            OneLineAvatarIconListItem:
+                text: str(root.count) + ' item(s)'
+
+
+<ReservationStatus>
+    name: 'reservation_stats'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+        cols: 1
+        orientation: 'vertical'
+
+        MDLabel:
+            text: 'Your Reservation'
+            font_style: 'H6'
+            size_hint_y: .1
+            padding: (10,0)
+
+        MDScrollViewRefreshLayout:
+            id: refresh_layout
+            refresh_callback: root.refresh_callback
+            root_layout: root
+
+            MDGridLayout:
+                id: content
+                adaptive_height: True
+                cols: 1
+                padding: '8dp'
+                spacing: '6dp'
+        MDSeparator:
+            height: '3dp'
+        MDBoxLayout:
+            cols: 1
+            size_hint_y: .1
+            padding: '20dp'
+            AnchorLayout:
+                anchor_x: 'center'
+                MDRaisedButton:
+                    padding_x: '20dp'
+                    text:'Cancel All'
+                    markup: True
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    md_bg_color: app.colors(2)
+                    on_release:
+                        root.cancel_all()

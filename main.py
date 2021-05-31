@@ -1,6 +1,7 @@
 import kivy
 import sqlite3
 import data_base
+from kivy.config import Config
 from kivymd.app import MDApp
 from kivy.clock import Clock
 from kivymd.utils import asynckivy
@@ -10,7 +11,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
 from libs.baseclass import store, type, products, product_details, reservation_cart, login, register, profile, \
-    navigation_layout
+    navigation_layout, reservation_stats
 
 
 class MyApp(MDApp):

@@ -14,7 +14,7 @@
     MDBoxLayout:
         cols: 2
         orientation: 'horizontal'
-        size_hint_y: .6
+        size_hint: 1, .6
 
         MDBoxLayout:
             cols: 1
@@ -25,16 +25,16 @@
                 source: f'./assets/{root.store_id}/{root.product_id}.jpg'
 
         MDBoxLayout:
-            cols:1
+            cols: 1
             orientation: 'vertical'
             size_hint_y: 1
 
             MDLabel:
-                padding_x: '10dp'
+
                 text: root.name
                 size_hint_y: .6
             MDLabel:
-                padding_x: '10dp'
+
                 size_hint_y: .4
                 text: 'Php ' + str(root.price)
     MDBoxLayout:
@@ -81,7 +81,7 @@
         orientation: 'vertical'
 
         MDLabel:
-            text: 'Your Reservation'
+            text: 'Your Cart'
             font_style: 'H6'
             size_hint_y: .1
             padding: (10,0)
@@ -125,18 +125,3 @@
                     md_bg_color: app.colors(2)
                     on_release:
                         root.date_pick()
-
-<DatePicking>
-
-#            MDBoxLayout:
-#                cols: 2
-#                orientation: 'horizontal'
-#                MDLabel:
-#                    text: 'Total:'
-#                    halign: 'right'
-#                    size_hint_y: .1
-#
-#                MDLabel:
-#                    halign: 'right'
-#                    text: root.total
-#                    size_hint_y: .1
