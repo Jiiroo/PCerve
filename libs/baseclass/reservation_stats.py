@@ -2,7 +2,6 @@ import data_base
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivymd.utils import asynckivy
-from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelThreeLine
 from kivy.properties import StringProperty, NumericProperty
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
