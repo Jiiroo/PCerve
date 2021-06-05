@@ -34,7 +34,6 @@ class MyApp(MDApp):
             data = cursor.fetchone()
         except (AttributeError, sqlite3.OperationalError):
             data = None
-
         return data
 
     def colors(self, color_code):

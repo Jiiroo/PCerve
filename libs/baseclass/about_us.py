@@ -4,7 +4,6 @@ from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine
 from kivy.properties import StringProperty
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
-from kivymd.utils import asynckivy
 
 Builder.load_file('./libs/kv/about_us.kv')
 
