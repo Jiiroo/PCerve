@@ -17,6 +17,7 @@ class MyApp(MDApp):
         self.title = 'PCerve'
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.on_key)
+        self.icon = './assets/icon.png'
 
     def on_start(self):
 
