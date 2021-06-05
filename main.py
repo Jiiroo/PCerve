@@ -1,17 +1,10 @@
-import kivy
 import sqlite3
-import data_base
-from kivy.config import Config
 from kivymd.app import MDApp
-from kivy.clock import Clock
-from kivymd.utils import asynckivy
 from kivy.lang.builder import Builder
 from kivy.core.window import Window
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
-from libs.baseclass import store, type, products, product_details, reservation_cart, login, register, \
-    navigation_layout, reservation_stats
+from kivy.properties import StringProperty, NumericProperty
+from libs.baseclass import data_base, login, navigation_layout, products, product_details, reservation_cart, \
+    reservation_stats, register, store, type, app_settings, change_pass, about_us
 
 
 class MyApp(MDApp):

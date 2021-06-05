@@ -1,9 +1,7 @@
-import data_base
-from kivymd.app import MDApp
+from libs.baseclass import data_base
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
-from kivymd.uix.label import MDLabel
-from kivy.properties import StringProperty, NumericProperty, ObjectProperty
+from kivy.properties import ObjectProperty
 
 Builder.load_file('./libs/kv/navigation_layout.kv')
 

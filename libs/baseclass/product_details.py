@@ -1,4 +1,4 @@
-import data_base
+from libs.baseclass import data_base
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivymd.utils import asynckivy
@@ -6,7 +6,6 @@ from kivy.properties import StringProperty, NumericProperty
 from kivy.uix.screenmanager import Screen
 from kivy.uix.modalview import ModalView
 from kivy.lang.builder import Builder
-from kivy.clock import Clock
 
 Builder.load_file('./libs/kv/product_details.kv')
 
@@ -20,15 +19,25 @@ class DetailCard(MDCard):
     stocks = NumericProperty(0)
 
     def reserve(self):
-        get = get = MDApp.get_running_app()
+        get = MDApp.get_running_app()
         conn = data_base.conn_db('./assets/data/pcerve_data.db')
         cursor = conn.cursor()
         cursor.execute('SELECT id FROM accounts WHERE status = "active"')
         id_usr = cursor.fetchone()
         cursor.execute('CREATE TABLE IF NOT EXISTS reservations(id integer unique primary key autoincrement, usr_id, '
                        'store_id, product_id, count, products, price)')
-        insert = 'INSERT INTO reservations (usr_id, store_id, product_id, count, products, price) VALUES (?,?,?,?,?,?)'
-        cursor.execute(insert, (id_usr[0], get.store_index, get.product_index, self.count, self.name, self.price))
+        cursor.execute(f'SELECT * FROM reservations where usr_id = {id_usr[0]} and store_id = {get.store_index} and '
+                       f'product_id = {get.product_index}')
+        get_existing = cursor.fetchone()
+        print(get_existing)
+        if get_existing is None:
+            insert = 'INSERT INTO reservations (usr_id, store_id, product_id, count, products, price) ' \
+                     'VALUES (?,?,?,?,?,?)'
+            cursor.execute(insert, (id_usr[0], get.store_index, get.product_index, self.count, self.name, self.price))
+        else:
+            if get_existing[4] != self.stocks:
+                cursor.execute(f'UPDATE reservations SET count = {self.count} WHERE usr_id = '
+                               f'{id_usr[0]} and store_id = {get.store_index} and product_id = {get.product_index}')
         conn.commit()
         conn.close()
         Reservation().open()

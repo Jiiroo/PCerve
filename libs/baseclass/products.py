@@ -1,4 +1,4 @@
-import data_base
+from libs.baseclass import data_base
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivymd.utils import asynckivy
@@ -19,7 +19,7 @@ class Products(Screen):
 
     def __init__(self, **kwargs):
         super(Products, self).__init__(**kwargs)
-        self.get = get = MDApp.get_running_app()
+        self.get = MDApp.get_running_app()
 
     def on_enter(self, *args):
         # Icon for list of stores

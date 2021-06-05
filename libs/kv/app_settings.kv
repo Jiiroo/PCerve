@@ -1,0 +1,57 @@
+<BlankCard>
+    name: 'app_settings'
+    elevation: 0
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    MDBoxLayout:
+        orientation: 'vertical'
+        cols: 1
+
+        MDLabel:
+            size_hint_y: .1
+            text: 'Name: ' + root.name
+            padding: (20,10)
+
+        MDSeparator:
+            spacing: '10dp'
+
+        MDLabel:
+            size_hint_y: .1
+            text: 'Email: ' + root.email
+            padding: (20,10)
+
+        MDSeparator:
+            spacing: '10dp'
+
+        MDLabel:
+            size_hint_y: .1
+            text: 'Password: ' + root.password
+            padding: (20,10)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            size_hint_y: .5
+            MDFlatButton:
+                size_hint: 1,.2
+                text: 'Change Password'
+                on_release:
+                    app.show_screen('change_pass')
+
+<AppSettings>
+    name: 'app_settings'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    ScrollView:
+        MDGridLayout:
+            id: content
+            cols: 1
+            padding: '8dp'
+            spacing: '6dp'

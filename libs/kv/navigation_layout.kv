@@ -38,10 +38,21 @@
                             id: reservation_stats
                             name: 'reservation_stats'
 
+                        ChangePass:
+                            id: change_pass
+                            name: 'change_pass'
+
+                        AppSettings:
+                            id: app_settings
+                            name: 'app_settings'
+
+                        AboutUs:
+                            id: about
+                            name: 'about'
+
+
         MDNavigationDrawer:
-
             id: nav_drawer
-
 
             BoxLayout:
                 orientation: 'vertical'
@@ -53,7 +64,7 @@
 
                     Image:
                         id: avatar
-                        source: "./LOGO.png"
+                        source: "./assets/LOGO.png"
 
                 ScrollView:
                     MDList:
@@ -78,10 +89,14 @@
                         OneLineIconListItem:
                             text: 'Settings'
                             on_release:
+                                app.show_screen('app_settings')
+                                nav_drawer.set_state('close')
 
                         OneLineIconListItem:
                             text: 'About Us'
                             on_release:
+                                app.show_screen('about')
+                                nav_drawer.set_state('close')
 
                         OneLineIconListItem:
                             text: 'Logout'

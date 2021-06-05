@@ -1,0 +1,78 @@
+<ChangePass>
+    old_pass: old_pass
+    new_pass: new_pass
+    confirm: confirm
+
+    name: 'change_pass'
+    canvas:
+        Color:
+            rgba: app.colors(0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    MDBoxLayout:
+        orientation: 'vertical'
+        cols: 1
+
+        MDTextField:
+            id: old_pass
+            size_hint_y: .1
+            hint_text: 'Old Password'
+            multiline: False
+            write_tab: False
+            password: True
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            padding: (20,10)
+
+        MDSeparator:
+            spacing: '10dp'
+
+        MDTextField:
+            id: new_pass
+            size_hint_y: .1
+            hint_text: 'New Password'
+            multiline: False
+            write_tab: False
+            password: True
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            padding: (20,10)
+
+        MDSeparator:
+            spacing: '10dp'
+
+        MDTextField:
+            id: confirm
+            size_hint_y: .1
+            hint_text: 'Confirm New Password'
+            multiline: False
+            write_tab: False
+            password: True
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            padding: (20,10)
+
+        MDBoxLayout:
+            orientation: 'horizontal'
+            cols: 2
+
+            AnchorLayout:
+                anchor_x: 'center'
+                size_hint_y: .5
+                MDFlatButton:
+                    size_hint: 1,.2
+                    text: 'Cancel'
+                    on_release:
+                        app.show_screen('app_settings')
+
+            AnchorLayout:
+                anchor_x: 'center'
+                size_hint_y: .5
+
+                MDFlatButton:
+                    size_hint: 1,.2
+                    text: 'Confirm'
+                    on_release:
+                        root.change()
+                        app.show_screen('app_settings')

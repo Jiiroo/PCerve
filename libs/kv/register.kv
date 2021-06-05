@@ -14,7 +14,7 @@
 
     FloatLayout:
         Image:
-            source: 'LOGO.png'
+            source: './assets/LOGO.png'
             size_hint: .4, .30
             pos_hint: {'center_x': .5, 'center_y': .85}
 
@@ -26,7 +26,7 @@
             color_mode: 'custom'
             line_color_focus: 1,1,1,1
             size_hint: .6, .1
-            pos_hint:{'center_x': .50, 'center_y': .65}
+            pos_hint:{'center_x': .5, 'center_y': .65}
 
         MDTextField:
             id: usr_email
@@ -36,7 +36,7 @@
             color_mode: 'custom'
             line_color_focus: 1,1,1,1
             size_hint: .6, .1
-            pos_hint:{'center_x': .50, 'center_y': .55}
+            pos_hint:{'center_x': .5, 'center_y': .55}
 
         MDTextField:
             id: usr_pass1
@@ -47,7 +47,7 @@
             color_mode: 'custom'
             line_color_focus: 1,1,1,1
             size_hint: .6, .1
-            pos_hint:{'center_x': .50, 'center_y': .45}
+            pos_hint:{'center_x': .5, 'center_y': .45}
 
         MDTextField:
             id: usr_pass2
@@ -58,19 +58,19 @@
             color_mode: 'custom'
             line_color_focus: 1,1,1,1
             size_hint: .6, .1
-            pos_hint:{'center_x': .50, 'center_y': .35}
+            pos_hint:{'center_x': .5, 'center_y': .35}
 
         MDFillRoundFlatButton:
             text:'Sign Up'
             markup: True
             md_bg_color: 0/255,206/255,209/255, 1
             size_hint: .3, .08
-            pos_hint: {'center_x': .50, 'center_y': .25}
+            pos_hint: {'center_x': .5, 'center_y': .25}
             on_release: if root.register() is True: app.root.current = 'login'
 
         MDTextButton:
             text: '[color=#A9A9A9][b]or Log in[/b][/color]'
             markup: True
-            pos_hint: {'center_x': .50, 'center_y': .15}
+            pos_hint: {'center_x': .5, 'center_y': .15}
             size_hint: .2, .05
             on_release: app.root.current = 'login'
